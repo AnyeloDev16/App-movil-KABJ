@@ -2,7 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permite acceder a Internet (para llamadas a API REST) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permite comprobar el estado de la red -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Permisos para logging y almacenamiento (necesarios para API < 23) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="22" />
+
+    <!-- Permiso para vibración (útil para notificaciones de errores) -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

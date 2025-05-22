@@ -14,7 +14,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -77,7 +76,7 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.constraintlayout)
 
-    implementation(libs.jakewharton.timber)
+    implementation(libs.timber)
     implementation(libs.core.ktx)
 
 }

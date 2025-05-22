@@ -19,6 +19,7 @@ navigationFragmentKtxVersion = "2.9.0"
 poi = "5.2.4"
 retrofit = "2.9.0"
 roomKtx = "2.6.1"
+timber = "5.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +58,7 @@ room-compiler = { module = "androidx.room:room-compiler" }
 room-ktx = { module = "androidx.room:room-ktx" }
 room-runtime = { module = "androidx.room:room-runtime" }
 squareup-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
