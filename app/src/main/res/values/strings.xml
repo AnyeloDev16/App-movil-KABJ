@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">app-movil-kabj</string>
+    <string name="description_logo_company">Logo de la empresa</string>
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_subtitle">Ingrese con su cuenta de la empresa</string>
+    <string name="hint_username">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="version_info">Versión 1.0.0 K.A.B.J</string>
+    <string name="msg_error_username_required">Ingrese su usuario</string>
+    <string name="msg_error_password_required">Ingrese su contraseña</string>
+    <string name="msg_login_success">Login exitoso con:</string>
 </resources>

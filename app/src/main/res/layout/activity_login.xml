@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color_login">
+
+    <!-- Banda de fondo superior -->
+    <View
+        android:id="@+id/background_band"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5" />
+
+    <!-- Logo central -->
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        tools:alpha="1"
+        android:src="@drawable/logo_kabj"
+        android:contentDescription="@string/description_logo_company"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintDimensionRatio="1:1.1"
+        app:layout_constraintTop_toTopOf="@id/background_band"
+        app:layout_constraintBottom_toTopOf="@id/card_view_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Card del login -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_login"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        tools:alpha="1"
+        android:layout_marginTop="100dp"
+        app:cardCornerRadius="16dp"
+        app:contentPadding="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_title"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginBottom="5dp" />
+
+            <!-- Subtítulo -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_subtitle"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Usuario -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutTxtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_username"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:startIconDrawable="@drawable/ic_user"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:autofillHints="username"
+                    android:paddingStart="50dp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Contraseña -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutTxtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_password"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusBottomEnd="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:autofillHints="password"
+                    android:paddingStart="50dp"
+                    tools:ignore="RtlSymmetry" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Botón -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/btn_login"
+                android:textStyle="bold"
+                android:backgroundTint="@color/btn_background_color_primary"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Versión -->
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/version_info"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
