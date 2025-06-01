@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_user"
+            android:title="@string/nav_home" />
+    </group>
+
+    <item android:title="@string/nav_title_work_orders">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_register_work_orders"
+                    android:title="@string/nav_register_work_orders"
+                    android:icon="@drawable/ic_register_wo"/>
+                <item
+                    android:id="@+id/nav_consult_work_orders"
+                    android:title="@string/nav_consult_work_orders"
+                    android:icon="@drawable/ic_consult_wo"/>
+            </group>
+        </menu>
+    </item>
+</menu>
