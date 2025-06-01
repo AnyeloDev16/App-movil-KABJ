@@ -1,5 +1,6 @@
 package pe.kabj.app_movil_kabj
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pe.kabj.app_movil_kabj.databinding.ActivityLoginBinding
+import pe.kabj.app_movil_kabj.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.extensions.validateNotEmpty
 
 class LoginActivity : AppCompatActivity() {
@@ -70,10 +72,18 @@ class LoginActivity : AppCompatActivity() {
         val isPasswordValid = layoutTxtPassword.validateNotEmpty(getString(R.string.msg_error_password_required))
 
         if (isUsernameValid && isPasswordValid) {
-            val username = txtUsername.text.toString().trim()
-            val password = txtPassword.text.toString().trim()
+            val username = txtUsername.getTrimmedText()
+            val password = txtPassword.getTrimmedText()
 
             showToast(getString(R.string.msg_login_success) + " $username")
+
+            val intent = Intent(this, MainActivity::class.java)
+
+            intent.putExtra("username", username)
+
+            startActivity(intent)
+            finish()
+
         }
     }
 

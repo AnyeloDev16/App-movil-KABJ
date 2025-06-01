@@ -10,4 +10,15 @@
     <string name="msg_error_username_required">Ingrese su usuario</string>
     <string name="msg_error_password_required">Ingrese su contraseña</string>
     <string name="msg_login_success">Login exitoso con:</string>
+    <string name="text_welcome">Bienvenido</string>
+    <string name="nav_drawer_open">Open navigation drawer</string>
+    <string name="nav_drawer_close">Close navigation drawer</string>
+
+    <!-- Navegation -->
+
+    <string name="nav_home">Inicio</string>
+    <string name="nav_title_work_orders">Ordenes de Trabajo</string>
+    <string name="nav_register_work_orders">Registrar Ordenes de Trabajo</string>
+    <string name="nav_consult_work_orders">Consultar Ordenes de Trabajo</string>
+
 </resources>
