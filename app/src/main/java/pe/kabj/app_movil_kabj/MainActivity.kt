@@ -16,6 +16,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
 
+/**
+ * Actividad principal de la aplicación luego del inicio de sesión.
+ * Se encarga de configurar la interfaz principal, incluyendo:
+ * - La barra de herramientas (Toolbar)
+ * - El menú lateral (Navigation Drawer)
+ * - El contenedor de fragments
+ * - La configuración del sistema inmersivo (ocultando barra de navegación)
+ * - La gestión personalizada del botón "Atrás"
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -24,9 +33,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigation: NavigationView
     private lateinit var header: View
     private lateinit var fragmentContainer: FrameLayout
-
     private lateinit var username: String
 
+    /**
+     * Callback personalizado para manejar el comportamiento del botón "Atrás".
+     * Si el menú lateral está abierto, lo cierra. Si no, delega el comportamiento por defecto.
+     */
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -38,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método principal de inicialización. Se ejecuta al crear la actividad.
+     * Configura la interfaz, los componentes de navegación y carga la vista inicial.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,13 +69,18 @@ class MainActivity : AppCompatActivity() {
         username = intent.getStringExtra("username") ?: "Usuario"
         header.findViewById<TextView>(R.id.tv_username).text = username
 
+        navigation.setCheckedItem(R.id.nav_home)
         navigateToHome()
+
     }
 
     // ──────────────────────────────────────────────
-    // SETUP Y CONFIGURACIÓN
+    // CONFIGURACIÓN DE COMPONENTES
     // ──────────────────────────────────────────────
 
+    /**
+     * Inicializa los componentes visuales mediante ViewBinding.
+     */
     private fun setupComponents() {
         drawerLayout = binding.drawerLayout
         toolbar = binding.toolbar
@@ -68,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         fragmentContainer = binding.fragmentContainer
     }
 
+    /**
+     * Configura el comportamiento de la barra de estado y la barra de navegación
+     * para ocultar los botones del sistema y permitir deslizamiento para mostrarlos.
+     */
     private fun configureSystemBars() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -79,6 +104,10 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = getColor(R.color.toolbar_background_color)
     }
 
+    /**
+     * Configura la barra de herramientas (Toolbar) como ActionBar
+     * y activa los botones de navegación.
+     */
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -87,6 +116,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configura el Navigation Drawer, incluyendo el toggle (ícono hamburguesa)
+     * y el manejo de selección de elementos del menú lateral.
+     */
     private fun setupNavigationDrawer() {
         navigation.bringToFront()
 
@@ -109,14 +142,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Registra el comportamiento personalizado del botón físico/gestual "Atrás".
+     */
     private fun setupBackPressedHandling() {
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
     }
 
     // ──────────────────────────────────────────────
-    // NAVEGACIÓN
+    // NAVEGACIÓN ENTRE VISTAS
     // ──────────────────────────────────────────────
 
+    /**
+     * Maneja la navegación según el ítem seleccionado del menú lateral.
+     */
     private fun handleNavigationItemSelected(itemId: Int) {
         when (itemId) {
             R.id.nav_home -> navigateToHome()
@@ -125,14 +164,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Navega a la pantalla principal o vista de inicio.
+     */
     private fun navigateToHome() {
         // Aquí irá el fragmento Home
     }
 
+    /**
+     * Navega al fragmento de registro de órdenes de trabajo.
+     */
     private fun navigateToRegisterWorkOrders() {
         // Aquí irá el fragmento de Registro de Órdenes
     }
 
+    /**
+     * Navega al fragmento de consulta de órdenes de trabajo.
+     */
     private fun navigateToConsultWorkOrders() {
         // Aquí irá el fragmento de Consulta de Órdenes
     }
@@ -141,8 +189,12 @@ class MainActivity : AppCompatActivity() {
     // CICLO DE VIDA
     // ──────────────────────────────────────────────
 
+    /**
+     * Libera recursos y elimina el callback de retroceso al destruir la actividad.
+     */
     override fun onDestroy() {
         super.onDestroy()
         backPressedCallback.remove()
     }
+
 }
