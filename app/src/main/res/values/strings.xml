@@ -21,4 +21,16 @@
     <string name="nav_register_work_orders">Registrar Ordenes de Trabajo</string>
     <string name="nav_consult_work_orders">Consultar Ordenes de Trabajo</string>
 
+    <!-- Register Work Orders -->
+    <string name="title_register_work_order">Registro de Ordenes de Trabajo</string>
+    <string name="description_image_file_upload">Imagen representativo de un archivo de subida</string>
+    <string name="drag_and_drop_or">Arrastra y suelta o</string>
+    <string name="select_file">selecciona archivo</string>
+    <string name="formats">Formatos: .xlsx, .xls</string>
+    <string name="sub_title_uploaded_files">Detalles de Archivo subido</string>
+    <string name="btn_process_files">Procesar archivos</string>
+    <string name="description_image_excel">Imagen representativo de archivo excel</string>
+    <string name="description_image_file_delete">Eliminar archivo</string>
+    <string name="description_image_file_state">Imagen que indica el estado del archivo</string>
+
 </resources>

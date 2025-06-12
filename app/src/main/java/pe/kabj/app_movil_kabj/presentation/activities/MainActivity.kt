@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj
+package pe.kabj.app_movil_kabj.presentation.activities
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
+import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 
 /**
  * Actividad principal de la aplicación luego del inicio de sesión.
@@ -149,6 +151,10 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
     }
 
+    private fun setTitleToolbar(titleId: Int) {
+        toolbar.title = getString(titleId)
+    }
+
     // ──────────────────────────────────────────────
     // NAVEGACIÓN ENTRE VISTAS
     // ──────────────────────────────────────────────
@@ -159,7 +165,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleNavigationItemSelected(itemId: Int) {
         when (itemId) {
             R.id.nav_home -> navigateToHome()
-            R.id.nav_register_work_orders -> navigateToRegisterWorkOrders()
+            R.id.nav_register_work_orders -> {
+                navigateToRegisterWorkOrders()
+                setTitleToolbar(R.string.title_register_work_order)
+            }
             R.id.nav_consult_work_orders -> navigateToConsultWorkOrders()
         }
     }
@@ -175,7 +184,12 @@ class MainActivity : AppCompatActivity() {
      * Navega al fragmento de registro de órdenes de trabajo.
      */
     private fun navigateToRegisterWorkOrders() {
-        // Aquí irá el fragmento de Registro de Órdenes
+        val fragment = RegisterWorkOrderFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+
     }
 
     /**

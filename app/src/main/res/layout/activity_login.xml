@@ -131,7 +131,7 @@
                 android:layout_marginTop="22dp"
                 android:text="@string/btn_login"
                 android:textStyle="bold"
-                android:backgroundTint="@color/btn_background_color_primary"
+                android:backgroundTint="@color/btn_enabled_background_color_primary"
                 app:cornerRadius="10dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

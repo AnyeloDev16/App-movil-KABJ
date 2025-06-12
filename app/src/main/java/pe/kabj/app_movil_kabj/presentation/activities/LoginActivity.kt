@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj
+package pe.kabj.app_movil_kabj.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityLoginBinding
 import pe.kabj.app_movil_kabj.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.extensions.validateNotEmpty
