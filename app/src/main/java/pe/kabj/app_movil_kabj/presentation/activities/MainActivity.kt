@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
+import pe.kabj.app_movil_kabj.presentation.fragments.AssignWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.ConsultWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 
@@ -189,6 +190,10 @@ class MainActivity : AppCompatActivity() {
                 navigateToConsultWorkOrders()
                 setTitleToolbar(R.string.title_consult_work_order)
             }
+            R.id.nav_assign_work_orders -> {
+                navigateToAssignWorkOrders()
+                setTitleToolbar(R.string.title_assign_work_order)
+            }
         }
     }
 
@@ -215,6 +220,17 @@ class MainActivity : AppCompatActivity() {
      */
     private fun navigateToConsultWorkOrders() {
         val fragment = ConsultWorkOrderFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    /**
+     * Navega al fragmento de asignacion de órdenes de trabajo.
+     */
+    private fun navigateToAssignWorkOrders() {
+        val fragment = AssignWorkOrderFragment()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)

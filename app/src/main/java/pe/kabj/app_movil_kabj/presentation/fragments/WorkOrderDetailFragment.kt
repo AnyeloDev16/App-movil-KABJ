@@ -42,6 +42,7 @@ class WorkOrderDetailFragment : Fragment() {
     }
 
     private fun handleBackPress() {
+        parentFragmentManager.popBackStack()
         /*
         if (workOrderDetailViewModel.hayCambios()) {
             // Mostrar un diálogo de confirmación antes de regresar
