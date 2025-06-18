@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.FragmentForemanWorkOrderListBinding
 import pe.kabj.app_movil_kabj.presentation.adapters.WorkOrderAdapter
 import pe.kabj.app_movil_kabj.presentation.viewmodels.ForemanWorkOrderListViewModel
@@ -34,7 +35,15 @@ class ForemanWorkOrderListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        workOrderAdapter = WorkOrderAdapter()
+        workOrderAdapter = WorkOrderAdapter { id ->
+            // Buscar por ID los datos completos de la orden de trabajo
+
+            parentFragmentManager.beginTransaction()
+                .hide(this)
+                .add(R.id.fragment_container, WorkOrderDetailForemanFragment())
+                .addToBackStack("WorkOrderDetailForeman")
+                .commit()
+        }
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkOrders.layoutManager = layoutManager

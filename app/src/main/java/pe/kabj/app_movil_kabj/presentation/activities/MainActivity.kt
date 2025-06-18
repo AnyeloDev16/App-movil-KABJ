@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var username: String
 
     private val backNavigableFragments = setOf(
-        "WorkOrderDetail"
+        "WorkOrderDetail",
+        "WorkOrderDetailForeman"
     )
 
     /**
