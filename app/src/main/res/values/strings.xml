@@ -21,6 +21,7 @@
     <string name="nav_register_work_orders">Registrar Ordenes de Trabajo</string>
     <string name="nav_consult_work_orders">Consultar Ordenes de Trabajo</string>
     <string name="nav_assign_work_orders">Asignar Ordenes de Trabajo</string>
+    <string name="nav_list_work_orders">Lista de Ordenes de Trabajo\n</string>
 
     <!-- Register Work Orders -->
     <string name="title_register_work_order">Registro de Ordenes de Trabajo</string>
@@ -76,5 +77,9 @@
     <string name="title_assign_work_order">Asignación de Ordenes de Trabajo</string>
     <string name="sub_title_selected_foreman">Seleccionar Capataz</string>
     <string name="hint_select_foreman">Seleccione un capataz\n</string>
+
+    <!-- List Foreman Work Order -->
+    <string name="title_foreman_work_order_list">Lista de Ordenes de Trabajo\n</string>
+    <string name="sub_title_list_work_orders">Lista de Ordenes asiganados</string>
 
 </resources>

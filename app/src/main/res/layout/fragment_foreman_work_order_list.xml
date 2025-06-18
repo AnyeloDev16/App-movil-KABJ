@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Título de la lista de órdenes -->
+    <TextView
+        android:id="@+id/tvTitleWorkOrderList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sub_title_list_work_orders"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Lista de órdenes de trabajo (RecyclerView paginada) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWorkOrders"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleWorkOrderList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/paginationContainer"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:paddingBottom="8dp"/>
+
+    <!-- Contenedor de paginación -->
+    <LinearLayout
+        android:id="@+id/paginationContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewWorkOrders"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreviousPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anterior"
+            style="?attr/materialButtonOutlinedStyle"
+            android:enabled="false"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:id="@+id/tvPageIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Página 1 de 5"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            style="?attr/materialButtonOutlinedStyle"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

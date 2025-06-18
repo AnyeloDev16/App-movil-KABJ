@@ -22,6 +22,10 @@
                     android:id="@+id/nav_assign_work_orders"
                     android:title="@string/nav_assign_work_orders"
                     android:icon="@drawable/ic_assign_wo"/>
+                <item
+                    android:id="@+id/nav_list_work_orders"
+                    android:title="@string/nav_list_work_orders"
+                    android:icon="@drawable/ic_list_wo"/>
             </group>
         </menu>
     </item>

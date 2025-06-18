@@ -18,6 +18,7 @@ import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
 import pe.kabj.app_movil_kabj.presentation.fragments.AssignWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.ConsultWorkOrderFragment
+import pe.kabj.app_movil_kabj.presentation.fragments.ForemanWorkOrderListFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 
 /**
@@ -194,6 +195,10 @@ class MainActivity : AppCompatActivity() {
                 navigateToAssignWorkOrders()
                 setTitleToolbar(R.string.title_assign_work_order)
             }
+            R.id.nav_list_work_orders -> {
+                navigateToForemanWorkOrderList()
+                setTitleToolbar(R.string.title_foreman_work_order_list)
+            }
         }
     }
 
@@ -231,6 +236,17 @@ class MainActivity : AppCompatActivity() {
      */
     private fun navigateToAssignWorkOrders() {
         val fragment = AssignWorkOrderFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    /**
+     * Navega al fragmento de listas de órdenes de trabajo asignados al capataz.
+     */
+    private fun navigateToForemanWorkOrderList() {
+        val fragment = ForemanWorkOrderListFragment()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
