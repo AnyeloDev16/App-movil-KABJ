@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/btn_enabled_background_color_primary"
+                app:cornerRadius="16dp"
+                android:text="@string/btn_return"
+                app:icon="@drawable/ic_return"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_principal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/btn_return"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_number"
+                    android:layout_marginEnd="25dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_work_order_number"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_principal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_state"
+                    android:layout_marginEnd="25dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/autoCompleteState"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:cursorVisible="false"
+                        android:longClickable="false"
+                        android:drawableEnd="@drawable/ic_arrow_drop_down"
+                        android:importantForAccessibility="no" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/lbl_title_locate"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_state"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            </TextView>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/title_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_district"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_work_order_district"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_sector"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_work_order_sector"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_locality"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_work_order_locality"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_address"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_work_order_address"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/lbl_title_date"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/title_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center|top">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_start_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_start_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_estimated_end"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_estimated_end"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                             android:text="@string/lbl_work_order_invoiced_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_invoiced_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_scheduled_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_scheduled_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_pending_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_pending_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_working_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_working_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_attended_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_attended_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_completed_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_completed_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_resolved_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_resolved_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_revised_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_revised_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_work_order_canceled_date"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="12sp">
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_work_order_canceled_date"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_style_textview"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:padding="10dp">
+
+                        </TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/lbl_title_detail"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/title_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_foreman"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_type"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_cost"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_description"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_work_order_observation"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_style_textview"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:padding="10dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_save_work_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/description_image_save_work_order"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:src="@drawable/ic_save"
+        android:backgroundTint="@color/btn_enabled_background_color_primary">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+</FrameLayout>

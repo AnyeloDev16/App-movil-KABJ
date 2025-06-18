@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
+import pe.kabj.app_movil_kabj.presentation.fragments.ConsultWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 
 /**
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fragmentContainer: FrameLayout
     private lateinit var username: String
 
+    private val backNavigableFragments = setOf(
+        "WorkOrderDetail"
+    )
+
     /**
      * Callback personalizado para manejar el comportamiento del botón "Atrás".
      * Si el menú lateral está abierto, lo cierra. Si no, delega el comportamiento por defecto.
@@ -45,9 +50,20 @@ class MainActivity : AppCompatActivity() {
         override fun handleOnBackPressed() {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
+            } else if (supportFragmentManager.backStackEntryCount > 0) {
+                // Saber qué fragmento está en la cima de la pila
+                val entry = supportFragmentManager.getBackStackEntryAt(
+                    supportFragmentManager.backStackEntryCount - 1
+                )
+
+                if (entry.name in backNavigableFragments) {
+                    // El fragment sí permite retroceder → hacemos popBackStack
+                    supportFragmentManager.popBackStack()
+                } else {
+                    // El fragment actual NO permite retroceso → no hacemos nada
+                }
             } else {
-                isEnabled = false
-                onBackPressedDispatcher.onBackPressed()
+                // No hay back stack → no hacer nada (o salir app si quieres)
             }
         }
     }
@@ -169,7 +185,10 @@ class MainActivity : AppCompatActivity() {
                 navigateToRegisterWorkOrders()
                 setTitleToolbar(R.string.title_register_work_order)
             }
-            R.id.nav_consult_work_orders -> navigateToConsultWorkOrders()
+            R.id.nav_consult_work_orders -> {
+                navigateToConsultWorkOrders()
+                setTitleToolbar(R.string.title_consult_work_order)
+            }
         }
     }
 
@@ -189,14 +208,17 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
-
     }
 
     /**
      * Navega al fragmento de consulta de órdenes de trabajo.
      */
     private fun navigateToConsultWorkOrders() {
-        // Aquí irá el fragmento de Consulta de Órdenes
+        val fragment = ConsultWorkOrderFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
     // ──────────────────────────────────────────────

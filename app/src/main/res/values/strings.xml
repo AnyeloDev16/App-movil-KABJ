@@ -33,4 +33,41 @@
     <string name="description_image_file_delete">Eliminar archivo</string>
     <string name="description_image_file_state">Imagen que indica el estado del archivo</string>
 
+    <!-- Consult Work Orders -->
+    <string name="title_consult_work_order">Consultar Ordenes de Trabajo</string>
+    <string name="btn_consult_work_order">Buscar Orden de Trabajo</string>
+    <string name="hint_number_work_order">Numero de Orden de Trabajo</string>
+    <string name="subtitle_consult_work_order">Ingrese un Numero de Orden de Trabajo</string>
+    <string name="msg_error_number_work_order_required">Ingrese el número de la orden</string>
+    <string name="msg_error_number_work_order_invalid">Número inválido, solo números</string>
+
+    <!-- Consult Work Orders Detail -->
+    <string name="btn_return">Regresar</string>
+    <string name="lbl_work_order_number">N° de Orden :</string>
+    <string name="lbl_work_order_state">Estado :</string>
+    <string name="lbl_title_locate">Ubicación</string>
+    <string name="lbl_work_order_district">Distrito:</string>
+    <string name="lbl_work_order_sector">Sector:</string>
+    <string name="lbl_work_order_locality">Localidad:</string>
+    <string name="lbl_work_order_address">Dirección:</string>
+    <string name="lbl_title_date">Fechas</string>
+    <string name="lbl_title_detail">Detalles</string>
+    <string name="lbl_work_order_foreman">Capataz:</string>
+    <string name="lbl_work_order_type">Tipo OT:</string>
+    <string name="lbl_work_order_cost">Costo:</string>
+    <string name="lbl_work_order_description">Descripción:</string>
+    <string name="lbl_work_order_observation">Observación:</string>
+    <string name="description_image_save_work_order">Boton de guardar cambios</string>
+    <string name="lbl_work_order_start_date">Inicio:</string>
+    <string name="lbl_work_order_estimated_end">Final estimado:</string>
+    <string name="lbl_work_order_invoiced_date">Facturado:</string>
+    <string name="lbl_work_order_scheduled_date">Programado:</string>
+    <string name="lbl_work_order_pending_date">Pendiente:</string>
+    <string name="lbl_work_order_working_date">Trabajando:</string>
+    <string name="lbl_work_order_attended_date">Atendido:</string>
+    <string name="lbl_work_order_completed_date">Completado:</string>
+    <string name="lbl_work_order_resolved_date">Resuelto:</string>
+    <string name="lbl_work_order_revised_date">Revisado:</string>
+    <string name="lbl_work_order_canceled_date">Anulado:</string>
+
 </resources>
