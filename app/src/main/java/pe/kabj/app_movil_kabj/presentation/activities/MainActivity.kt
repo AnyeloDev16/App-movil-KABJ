@@ -19,6 +19,7 @@ import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
 import pe.kabj.app_movil_kabj.presentation.fragments.AssignWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.ConsultWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.ForemanWorkOrderListFragment
+import pe.kabj.app_movil_kabj.presentation.fragments.HomeFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 
 /**
@@ -183,7 +184,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handleNavigationItemSelected(itemId: Int) {
         when (itemId) {
-            R.id.nav_home -> navigateToHome()
+            R.id.nav_home -> {
+                navigateToHome()
+                setTitleToolbar(R.string.title_home)
+            }
             R.id.nav_register_work_orders -> {
                 navigateToRegisterWorkOrders()
                 setTitleToolbar(R.string.title_register_work_order)
@@ -207,7 +211,11 @@ class MainActivity : AppCompatActivity() {
      * Navega a la pantalla principal o vista de inicio.
      */
     private fun navigateToHome() {
-        // Aquí irá el fragmento Home
+        val fragment = HomeFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
     /**
