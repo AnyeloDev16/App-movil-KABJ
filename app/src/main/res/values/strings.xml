@@ -84,5 +84,7 @@
     <!-- List Foreman Work Order -->
     <string name="title_foreman_work_order_list">Lista de Ordenes de Trabajo\n</string>
     <string name="sub_title_list_work_orders">Lista de Ordenes asiganados</string>
+    <string name="nav_logout">Cerrar Sesión</string>
+    <string name="nav_title_options">Opciones\n</string>
 
 </resources>

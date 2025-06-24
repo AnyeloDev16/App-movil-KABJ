@@ -11,7 +11,7 @@ class ForemanWorkOrderListViewModel : ViewModel() {
     private val _workOrders = MutableLiveData<List<WorkOrderListItem>>()
     val workOrders: LiveData<List<WorkOrderListItem>> = _workOrders
 
-    private val allData = (1..3).map { WorkOrderListItem(1, 1234, "wawawa", "FACTURADO",
+    private val allData = (1..3).map { WorkOrderListItem(1, 6645743245, "Descripción de la actividad", "ESTADO",
         LocalDate.now()) }
 
     var currentPage = 0

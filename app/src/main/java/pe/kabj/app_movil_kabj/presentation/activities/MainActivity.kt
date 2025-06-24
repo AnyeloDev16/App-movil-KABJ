@@ -1,5 +1,6 @@
 package pe.kabj.app_movil_kabj.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -13,6 +14,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
@@ -157,11 +159,19 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         navigation.setNavigationItemSelectedListener { menuItem ->
+            val isLogout = menuItem.itemId == R.id.nav_logout
+
             handleNavigationItemSelected(menuItem.itemId)
-            menuItem.isChecked = true
-            drawerLayout.closeDrawers()
-            true
+
+            if (!isLogout) {
+                menuItem.isChecked = true
+                drawerLayout.closeDrawers()
+            }
+
+            !isLogout
         }
+
+
     }
 
     /**
@@ -203,6 +213,20 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_list_work_orders -> {
                 navigateToForemanWorkOrderList()
                 setTitleToolbar(R.string.title_foreman_work_order_list)
+            }
+            R.id.nav_logout -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Cerrar sesión")
+                    .setMessage("¿Está seguro que desea cerrar sesión?")
+                    .setNegativeButton("Cancelar") { dialog, _ -> dialog.dismiss() }
+                    .setPositiveButton("Cerrar sesión") { dialog, _ ->
+                        // Navegar a LoginActivity
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish() // Cierra el MainActivity
+                    }
+                    .show()
             }
         }
     }
