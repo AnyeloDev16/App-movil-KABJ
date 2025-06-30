@@ -86,6 +86,10 @@ class SessionManager(context: Context) {
         return prefs.getStringSet(KEY_PERMISSIONS, emptySet())?.toList() ?: emptyList()
     }
 
+    fun hasPermission(permission: String): Boolean {
+        return fetchPermissions().any { it == permission }
+    }
+
     fun clearSession() {
         prefs.edit { clear() }
     }
