@@ -1,0 +1,9 @@
+package pe.kabj.app_movil_kabj.data.dto.auth
+
+data class AuthenticationRequest (
+    private val username: String,
+    private val password: String
+) {
+    fun getUsername(): String = username
+    fun getPassword(): String = password
+}

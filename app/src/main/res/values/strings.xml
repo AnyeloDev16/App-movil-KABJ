@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app-movil-kabj</string>
+    <string name="app_name">KABJ-APP</string>
     <string name="description_logo_company">Logo de la empresa</string>
     <string name="login_title">Iniciar Sesión</string>
     <string name="login_subtitle">Ingrese con su cuenta de la empresa</string>
@@ -13,6 +13,10 @@
     <string name="text_welcome">Bienvenido</string>
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
+
+    <!-- Login -->
+    <string name="msg_error_login_fields_required">Las credenciales son necesarias</string>
+    <string name="txt_search_user">Buscando Usuario . . .</string>
 
     <!-- Navegation -->
 

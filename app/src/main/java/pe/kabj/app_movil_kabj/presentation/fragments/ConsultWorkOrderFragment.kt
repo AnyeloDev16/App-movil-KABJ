@@ -15,9 +15,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.FragmentConsultWorkOrderBinding
-import pe.kabj.app_movil_kabj.extensions.getTrimmedText
-import pe.kabj.app_movil_kabj.extensions.validateIsNumber
-import pe.kabj.app_movil_kabj.extensions.validateNotEmpty
+import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
+import pe.kabj.app_movil_kabj.util.extensions.validateIsNumber
+import pe.kabj.app_movil_kabj.util.extensions.validateNotEmpty
 import pe.kabj.app_movil_kabj.presentation.viewmodels.ConsultWorkOrderViewModel
 
 class ConsultWorkOrderFragment : Fragment() {

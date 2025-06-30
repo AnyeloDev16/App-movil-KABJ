@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import pe.kabj.app_movil_kabj.R
+import pe.kabj.app_movil_kabj.data.local.SessionManager
 import pe.kabj.app_movil_kabj.databinding.ActivityMainBinding
 import pe.kabj.app_movil_kabj.presentation.fragments.AssignWorkOrderFragment
 import pe.kabj.app_movil_kabj.presentation.fragments.ConsultWorkOrderFragment
@@ -36,12 +37,17 @@ import pe.kabj.app_movil_kabj.presentation.fragments.RegisterWorkOrderFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    //Components
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
     private lateinit var navigation: NavigationView
     private lateinit var header: View
     private lateinit var fragmentContainer: FrameLayout
-    private lateinit var username: String
+
+    //Variables
+    private lateinit var sessionManager: SessionManager
+    private lateinit var fullUsername: String
 
     private val backNavigableFragments = setOf(
         "WorkOrderDetail",
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sessionManager = SessionManager(this)
 
         setupComponents()
         configureSystemBars()
@@ -90,11 +97,12 @@ class MainActivity : AppCompatActivity() {
         setupNavigationDrawer()
         setupBackPressedHandling()
 
-        username = intent.getStringExtra("username") ?: "Usuario"
-        header.findViewById<TextView>(R.id.tv_username).text = username
+        fullUsername = sessionManager.fetchNames()!! + " " + sessionManager.fetchSurnames()!!
+        header.findViewById<TextView>(R.id.tv_full_username).text = fullUsername
 
         navigation.setCheckedItem(R.id.nav_home)
         navigateToHome()
+        setTitleToolbar(R.string.title_home)
 
     }
 
@@ -182,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTitleToolbar(titleId: Int) {
-        toolbar.title = getString(titleId)
+        supportActionBar?.title = getString(titleId)
     }
 
     // ──────────────────────────────────────────────

@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj.extensions
+package pe.kabj.app_movil_kabj.util.extensions
 
 import com.google.android.material.textfield.TextInputEditText
 

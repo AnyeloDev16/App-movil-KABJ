@@ -2,20 +2,27 @@ package pe.kabj.app_movil_kabj.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.ActivityLoginBinding
-import pe.kabj.app_movil_kabj.extensions.getTrimmedText
-import pe.kabj.app_movil_kabj.extensions.validateNotEmpty
+import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
+import pe.kabj.app_movil_kabj.presentation.viewmodels.LoginViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.presentation.viewmodels.LoginResult
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,6 +34,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var layoutTxtPassword: TextInputLayout
     private lateinit var txtPassword: TextInputEditText
     private lateinit var btnLogin: MaterialButton
+    private lateinit var progressOverlay: LinearLayout
+
+    //ViewModel
+    private val loginViewModel: LoginViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return LoginViewModel(applicationContext) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,11 +52,11 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         hideSystemBars()
 
         setupComponents()
         setupListeners()
+        setupObservers()
         animateLogin()
 
     }
@@ -49,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
         this.layoutTxtPassword = binding.layoutTxtPassword
         this.txtPassword = binding.txtPassword
         this.btnLogin = binding.btnLogin
+        this.progressOverlay = binding.progressOverlay
     }
 
     private fun setupListeners() {
@@ -68,24 +87,51 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleLogin() {
-        val isUsernameValid = layoutTxtUsername.validateNotEmpty(getString(R.string.msg_error_username_required))
-        val isPasswordValid = layoutTxtPassword.validateNotEmpty(getString(R.string.msg_error_password_required))
-
-        if (isUsernameValid && isPasswordValid) {
-            val username = txtUsername.getTrimmedText()
-            val password = txtPassword.getTrimmedText()
-
-            showToast(getString(R.string.msg_login_success) + " $username")
-
-            val intent = Intent(this, MainActivity::class.java)
-
-            intent.putExtra("username", username)
-
-            startActivity(intent)
-            finish()
-
+    private fun setupObservers() {
+        loginViewModel.isLoginButtonPressed.observe(this) { isLoginButtonPressed ->
+            btnLogin.isEnabled = isLoginButtonPressed.not()
         }
+
+        loginViewModel.isAuthenticating.observe(this) { isLoggingIn ->
+            progressOverlay.visibility = if (isLoggingIn)  View.VISIBLE else View.GONE
+        }
+        loginViewModel.loginResult.observe(this) { result ->
+            when (result) {
+                is LoginResult.Success -> {
+                    goToMainActivity()
+                }
+                is LoginResult.Error -> {
+                    showLoginError(result.errorResponse)
+                }
+            }
+        }
+
+    }
+
+    private fun handleLogin() {
+
+        val txtUsername: String = txtUsername.getTrimmedText()
+        val txtPassword: String = txtPassword.getTrimmedText()
+
+        val isValid : Boolean = loginViewModel.isLoginFormValid(txtUsername, txtPassword)
+
+        if (!isValid) {
+            if (txtUsername.isBlank()) {
+                layoutTxtUsername.error = getString(R.string.msg_error_username_required)
+            } else {
+                layoutTxtUsername.error = null
+            }
+
+            if (txtPassword.isBlank()) {
+                layoutTxtPassword.error = getString(R.string.msg_error_password_required)
+            } else {
+                layoutTxtPassword.error = null
+            }
+            return
+        }
+
+        loginViewModel.authenticateUser(txtUsername, txtPassword)
+
     }
 
     private fun animateLogin() {
@@ -102,11 +148,6 @@ class LoginActivity : AppCompatActivity() {
             .start()
     }
 
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun hideSystemBars() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -116,6 +157,32 @@ class LoginActivity : AppCompatActivity() {
         )
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    }
+
+    private fun showLoginError(errorResponse: ErrorResponse) {
+        val userTitle = when (errorResponse.status) {
+            "UNAUTHORIZED" -> "Autenticación fallida"
+            "BAD_RESPONSE" -> "Error de datos"
+            "ERROR" -> "Error de red"
+            else -> "Error"
+        }
+
+        val userMessage = errorResponse.message.ifBlank {
+            "Ha ocurrido un error inesperado. Intenta nuevamente."
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(userTitle)
+            .setMessage(userMessage)
+            .setPositiveButton("Aceptar", null)
+            .show()
+    }
+
+
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }
