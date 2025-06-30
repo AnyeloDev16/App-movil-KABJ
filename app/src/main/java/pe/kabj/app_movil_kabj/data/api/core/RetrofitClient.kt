@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient private constructor(private val context: Context) {
 
     companion object {
-        private const val BASE_URL = "https://52ba-38-253-150-222.ngrok-free.app/api/v1/"
+        private const val BASE_URL = "https://6dd0-38-253-150-222.ngrok-free.app/api/v1/"
         internal val gson: Gson = Gson()
         private var INSTANCE: RetrofitClient? = null
 
@@ -30,27 +30,27 @@ class RetrofitClient private constructor(private val context: Context) {
         val originalRequest = chain.request()
         val startTime = System.currentTimeMillis()
 
-        // Log del REQUEST
-        Log.d("API_LOG", "🚀 ${originalRequest.method()} ${originalRequest.url()}")
-        Log.d("API_LOG", "Headers: ${originalRequest.headers()}")
-
-        // Log del JSON enviado
-        originalRequest.body()?.let { body ->
-            val buffer = okio.Buffer()
-            body.writeTo(buffer)
-            val requestJson = buffer.readUtf8()
-            Log.d("API_LOG", "📤 JSON enviado: $requestJson")
-        }
-
         val token = sessionManager.fetchAuthToken()
         val request = if (!token.isNullOrEmpty()) {
-            Log.d("API_LOG", "🔑 Token agregado: Bearer ${token.take(20)}...")
             originalRequest.newBuilder()
                 .addHeader("Authorization", "Bearer $token")
                 .build()
         } else {
             Log.d("API_LOG", "⚠️ Sin token de autorización")
             originalRequest
+        }
+
+        // Log del REQUEST
+        Log.d("API_LOG", "🚀 ${request.method()} ${request.url()}")
+        val authHeader = request.header("Authorization")
+        Log.d("API_LOG", "🗣️ Authorization Header: $authHeader")
+
+        // Log del JSON enviado
+        request.body()?.let { body ->
+            val buffer = okio.Buffer()
+            body.writeTo(buffer)
+            val requestJson = buffer.readUtf8()
+            Log.d("API_LOG", "📤 JSON enviado: $requestJson")
         }
 
         val response = chain.proceed(request)
@@ -76,7 +76,6 @@ class RetrofitClient private constructor(private val context: Context) {
         val startTime = System.currentTimeMillis()
 
         Log.d("API_LOG", "🚀 ${originalRequest.method()} ${originalRequest.url()}")
-        Log.d("API_LOG", "🗣️ Headers: ${originalRequest.headers()}")
 
         originalRequest.body()?.let { body ->
             val buffer = okio.Buffer()

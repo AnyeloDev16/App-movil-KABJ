@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +16,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
@@ -35,7 +38,6 @@ import pe.kabj.app_movil_kabj.presentation.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
 
     // Components
     private lateinit var drawerLayout: DrawerLayout
@@ -43,10 +45,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigation: NavigationView
     private lateinit var header: View
     private lateinit var fragmentContainer: FrameLayout
+    private lateinit var progressOverlay: LinearLayout
 
     // Variables
     private lateinit var sessionManager: SessionManager
     private lateinit var menuConfigurator: MenuConfigurator
+
+    private val mainViewModel: MainViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return MainViewModel(applicationContext) as T
+            }
+        }
+    }
 
     /**
      * Maneja el botón "Atrás"
@@ -60,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.backStackEntryCount - 1
                 )
 
-                if (viewModel.canNavigateBack(entry.name)) {
+                if (mainViewModel.canNavigateBack(entry.name)) {
                     supportFragmentManager.popBackStack()
                 }
             }
@@ -72,8 +84,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         sessionManager = SessionManager(this)
         menuConfigurator = MenuConfigurator(sessionManager)
@@ -89,6 +99,7 @@ class MainActivity : AppCompatActivity() {
         menuConfigurator.configureMenu(navigation)
     }
 
+
     /**
      * Configura la información del usuario en el header
      */
@@ -101,43 +112,46 @@ class MainActivity : AppCompatActivity() {
      * Observa los cambios del ViewModel
      */
     private fun setupObservers() {
-
         // Observar cambios en el fragmento actual
-        viewModel.currentFragment.observe(this) { fragmentType ->
+        mainViewModel.currentFragment.observe(this) { fragmentType ->
             navigateToFragment(fragmentType)
         }
 
         // Observar cambios en el título del toolbar
-        viewModel.toolbarTitle.observe(this) { titleResId ->
+        mainViewModel.toolbarTitle.observe(this) { titleResId ->
             supportActionBar?.title = getString(titleResId)
         }
 
         // Observar cuando se debe cerrar el drawer
-        viewModel.shouldCloseDrawer.observe(this) { shouldClose ->
+        mainViewModel.shouldCloseDrawer.observe(this) { shouldClose ->
             if (shouldClose) {
                 drawerLayout.closeDrawers()
-                viewModel.resetStates()
+                mainViewModel.resetStates()
             }
         }
 
         // Observar el elemento seleccionado del menú
-        viewModel.selectedMenuItemId.observe(this) { menuItemId ->
+        mainViewModel.selectedMenuItemId.observe(this) { menuItemId ->
             navigation.setCheckedItem(menuItemId)
         }
 
         // Observar cuándo mostrar el diálogo de logout
-        viewModel.showLogoutDialog.observe(this) { shouldShow ->
+        mainViewModel.showLogoutDialog.observe(this) { shouldShow ->
             if (shouldShow) {
                 showLogoutDialog()
             }
         }
 
         // Observar cuándo navegar al login
-        viewModel.navigateToLogin.observe(this) { shouldNavigate ->
+        mainViewModel.navigateToLogin.observe(this) { shouldNavigate ->
             if (shouldNavigate) {
                 navigateToLogin()
-                viewModel.resetStates()
+                mainViewModel.resetStates()
             }
+        }
+
+        mainViewModel.isLoggingOut.observe(this) { isLoggingOut ->
+            progressOverlay.visibility = if (isLoggingOut) View.VISIBLE else View.GONE
         }
     }
 
@@ -151,6 +165,7 @@ class MainActivity : AppCompatActivity() {
         navigation = binding.navView
         header = navigation.getHeaderView(0)
         fragmentContainer = binding.fragmentContainer
+        progressOverlay = binding.progressOverlay
     }
 
     private fun configureSystemBars() {
@@ -190,7 +205,7 @@ class MainActivity : AppCompatActivity() {
             val isLogout = menuItem.itemId == R.id.nav_logout
 
             // Delegar la lógica al ViewModel
-            viewModel.handleNavigationItemSelected(menuItem.itemId)
+            mainViewModel.handleNavigationItemSelected(menuItem.itemId)
 
             // No marcar logout como seleccionado
             !isLogout
@@ -199,6 +214,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBackPressedHandling() {
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backPressedCallback.remove()
     }
 
     // ──────────────────────────────────────────────
@@ -231,10 +251,10 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Cerrar sesión")
             .setMessage("¿Está seguro que desea cerrar sesión?")
             .setNegativeButton("Cancelar") { _, _ ->
-                viewModel.cancelLogout()
+                mainViewModel.cancelLogout()
             }
             .setPositiveButton("Cerrar sesión") { _, _ ->
-                viewModel.confirmLogout()
+                mainViewModel.confirmLogout()
             }
             .show()
     }
@@ -247,10 +267,5 @@ class MainActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        backPressedCallback.remove()
     }
 }

@@ -91,4 +91,7 @@
     <string name="nav_logout">Cerrar Sesión</string>
     <string name="nav_title_options">Opciones\n</string>
 
+    <!-- Logout -->
+    <string name="txt_logout_user">Cerrando sesión . . .</string>
+
 </resources>

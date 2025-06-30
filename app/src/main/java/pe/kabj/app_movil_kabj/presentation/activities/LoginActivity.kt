@@ -95,6 +95,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.isAuthenticating.observe(this) { isLoggingIn ->
             progressOverlay.visibility = if (isLoggingIn)  View.VISIBLE else View.GONE
         }
+
         loginViewModel.loginResult.observe(this) { result ->
             when (result) {
                 is LoginResult.Success -> {

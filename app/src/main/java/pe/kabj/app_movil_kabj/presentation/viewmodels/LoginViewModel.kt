@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pe.kabj.app_movil_kabj.data.api.AuthApiService
+import pe.kabj.app_movil_kabj.data.api.AuthPublicApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
 import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
 import pe.kabj.app_movil_kabj.data.local.SessionManager
@@ -23,7 +23,7 @@ class LoginViewModel(
     private val retrofitClient = RetrofitClient.getInstance(context)
 
     // Para login usamos PUBLIC service (no necesita token)
-    private var authApiService: AuthApiService = retrofitClient.createPublicService(AuthApiService::class.java)
+    private val authPublicApiService: AuthPublicApiService = retrofitClient.createPublicService(AuthPublicApiService::class.java)
 
     private val _isLoginButtonPressed: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginButtonPressed: LiveData<Boolean> get() = _isLoginButtonPressed
@@ -50,7 +50,7 @@ class LoginViewModel(
             _isAuthenticating.postValue(true)
 
             try {
-                val authResponse = authApiService.authenticate(AuthenticationRequest(username, password))
+                val authResponse = authPublicApiService.authenticate(AuthenticationRequest(username, password, "MOBILE"))
 
                 if (!authResponse.isSuccessful) {
                     val errorDto = extractErrorDto(authResponse)
@@ -84,7 +84,6 @@ class LoginViewModel(
                 sessionManager.saveAuthToken(token)
 
                 val responseBody = authResponse.body()
-                Log.d("API_LOG", responseBody.toString())
 
                 val employeeResponse = responseBody?.authEmployeeResponse
                 val userResponse = responseBody?.authUserResponse

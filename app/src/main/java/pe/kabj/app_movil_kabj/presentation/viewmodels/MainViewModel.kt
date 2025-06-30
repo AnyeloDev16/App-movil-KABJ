@@ -1,9 +1,15 @@
 package pe.kabj.app_movil_kabj.presentation.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import pe.kabj.app_movil_kabj.R
+import pe.kabj.app_movil_kabj.data.api.AuthApiService
+import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
+import pe.kabj.app_movil_kabj.data.local.SessionManager
 
 /**
  * ViewModel para la actividad principal.
@@ -12,7 +18,16 @@ import pe.kabj.app_movil_kabj.R
  * - Estados de la interfaz
  * - Control del menú lateral
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    context: Context
+) : ViewModel() {
+
+    private val sessionManager = SessionManager(context)
+
+    // Usar RetrofitClient con context
+    private val retrofitClient = RetrofitClient.getInstance(context)
+
+    private val authApiService = retrofitClient.createAuthService(AuthApiService::class.java)
 
     // Estados de navegación
     private val _currentFragment = MutableLiveData<String>()
@@ -33,6 +48,9 @@ class MainViewModel : ViewModel() {
     // Estados del menú
     private val _selectedMenuItemId = MutableLiveData<Int>()
     val selectedMenuItemId: LiveData<Int> = _selectedMenuItemId
+
+    private val _isLoggingOut = MutableLiveData<Boolean>()
+    val isLoggingOut: LiveData<Boolean> = _isLoggingOut
 
     // Control de back stack
     private val backNavigableFragments = setOf(
@@ -131,8 +149,23 @@ class MainViewModel : ViewModel() {
      * Maneja la confirmación de cierre de sesión
      */
     fun confirmLogout() {
-        _navigateToLogin.value = true
-        _showLogoutDialog.value = false
+        viewModelScope.launch {
+            try {
+                _isLoggingOut.value = true
+                _showLogoutDialog.value = false
+
+                // Llamada a la API suspend para cerrar sesión
+                authApiService.logOutOwnSession()
+                sessionManager.clearSession()
+
+                // Si la llamada es exitosa, navegar al login
+                _navigateToLogin.value = true
+            } catch (e: Exception) {
+                _navigateToLogin.value = true
+            } finally {
+                _isLoggingOut.value = false
+            }
+        }
     }
 
     /**
