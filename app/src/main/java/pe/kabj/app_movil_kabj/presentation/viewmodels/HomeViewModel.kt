@@ -9,7 +9,7 @@ class HomeViewModel : ViewModel() {
     private val _visibleCards: MutableLiveData<Set<String>> = MutableLiveData()
     val visibleCards: LiveData<Set<String>> get() = _visibleCards
 
-    fun loadVisibleCards(userPermissions: List<String>) {
+    fun loadVisibleCards(userPermissions: Set<String>) {
         val visible = mutableSetOf<String>()
 
         if (userPermissions.any { it == "MOBILE_WORK_ORDER_REGISTER_VIEW" }) visible.add("REGISTER")

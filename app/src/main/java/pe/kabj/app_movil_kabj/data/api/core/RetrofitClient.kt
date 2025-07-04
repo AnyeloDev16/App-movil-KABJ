@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient private constructor(private val context: Context) {
 
     companion object {
-        private const val BASE_URL = "https://5748-38-253-150-222.ngrok-free.app/api/v1/"
+        private const val BASE_URL = "https://3cf4-38-253-150-222.ngrok-free.app/api/v1/"
         internal val gson: Gson = Gson()
         private var INSTANCE: RetrofitClient? = null
 
@@ -45,12 +45,16 @@ class RetrofitClient private constructor(private val context: Context) {
         val authHeader = request.header("Authorization")
         Log.d("API_LOG", "🗣️ Authorization Header: $authHeader")
 
-        // Log del JSON enviado
+        // Log del body enviado
         request.body()?.let { body ->
-            val buffer = okio.Buffer()
-            body.writeTo(buffer)
-            val requestJson = buffer.readUtf8()
-            Log.d("API_LOG", "📤 JSON enviado: $requestJson")
+            if (body.contentType()?.toString()?.startsWith("multipart") == true) {
+                Log.d("API_LOG", "📤 Enviando archivo como multipart/form-data (contenido no mostrado)")
+            } else {
+                val buffer = okio.Buffer()
+                body.writeTo(buffer)
+                val requestBodyStr = buffer.readUtf8()
+                Log.d("API_LOG", "📤 Body enviado: $requestBodyStr")
+            }
         }
 
         val response = chain.proceed(request)

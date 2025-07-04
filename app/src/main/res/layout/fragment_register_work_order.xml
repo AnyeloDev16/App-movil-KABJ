@@ -174,7 +174,7 @@
                         android:layout_gravity="center_vertical"/>
 
                     <TextView
-                        android:id="@+id/tvValidationTime"
+                        android:id="@+id/tvValidationInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Validando..."
@@ -218,17 +218,6 @@
                 android:contentDescription="@string/description_image_file_delete" />
 
         </LinearLayout>
-
-        <!-- Barra de progreso -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_gravity="bottom"
-            android:progress="0"
-            android:progressTint="@color/progress_bar_color"
-            android:visibility="visible" />
 
     </androidx.cardview.widget.CardView>
 

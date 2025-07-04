@@ -50,15 +50,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    // Apache POI para archivos Excel
-    implementation(libs.poi)
-    implementation(libs.poi.ooxml)
-
     // Corrutinas para operaciones asíncronas
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.legacy.support.v4)
-
 
 }

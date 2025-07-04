@@ -93,5 +93,8 @@
 
     <!-- Logout -->
     <string name="txt_logout_user">Cerrando sesión . . .</string>
+    <string name="image_description_icon_modal">Icono de modal</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btnAccept">Aceptar</string>
 
 </resources>

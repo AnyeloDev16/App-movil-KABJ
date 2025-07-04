@@ -20,9 +20,8 @@ import pe.kabj.app_movil_kabj.databinding.ActivityLoginBinding
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.presentation.viewmodels.LoginViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.presentation.viewmodels.LoginResult
+import pe.kabj.app_movil_kabj.data.dto.OperationResult
+import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 
 class LoginActivity : AppCompatActivity() {
 
@@ -98,11 +97,11 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this) { result ->
             when (result) {
-                is LoginResult.Success -> {
+                is OperationResult.Success -> {
                     goToMainActivity()
                 }
-                is LoginResult.Error -> {
-                    showLoginError(result.errorResponse)
+                is OperationResult.Error -> {
+                    showLoginError(result)
                 }
             }
         }
@@ -160,25 +159,9 @@ class LoginActivity : AppCompatActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
-    private fun showLoginError(errorResponse: ErrorResponse) {
-        val userTitle = when (errorResponse.status) {
-            "UNAUTHORIZED" -> "Autenticación fallida"
-            "BAD_RESPONSE" -> "Error de datos"
-            "ERROR" -> "Error de red"
-            else -> "Error"
-        }
-
-        val userMessage = errorResponse.message.ifBlank {
-            "Ha ocurrido un error inesperado. Intenta nuevamente."
-        }
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(userTitle)
-            .setMessage(userMessage)
-            .setPositiveButton("Aceptar", null)
-            .show()
+    private fun showLoginError(error: OperationResult.Error) {
+        ModalDialogUtils.showFailureDialog(this, error.title, error.message)
     }
-
 
     private fun goToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)

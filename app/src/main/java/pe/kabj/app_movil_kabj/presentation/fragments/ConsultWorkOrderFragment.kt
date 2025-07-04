@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pe.kabj.app_movil_kabj.R
 import pe.kabj.app_movil_kabj.databinding.FragmentConsultWorkOrderBinding
+import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.util.extensions.validateIsNumber
 import pe.kabj.app_movil_kabj.util.extensions.validateNotEmpty
@@ -111,14 +112,8 @@ class ConsultWorkOrderFragment : Fragment() {
     }
 
     private fun showLoading() {
-        val view = layoutInflater.inflate(R.layout.dialog_loading, null)
 
-        progressDialog = MaterialAlertDialogBuilder(requireContext())
-            .setCancelable(false)
-            .setView(view)
-            .create()
 
-        progressDialog?.show()
     }
 
     private fun hideLoading() {

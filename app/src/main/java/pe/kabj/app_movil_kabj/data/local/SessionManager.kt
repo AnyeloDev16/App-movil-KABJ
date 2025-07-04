@@ -3,6 +3,7 @@ package pe.kabj.app_movil_kabj.data.local
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import pe.kabj.app_movil_kabj.model.enum.Permission
 
 class SessionManager(context: Context) {
 
@@ -39,7 +40,7 @@ class SessionManager(context: Context) {
         email: String?,
         phone: String?,
         active: Boolean,
-        permissions: List<String>
+        permissions: Set<String>
     ) {
         prefs.edit {
             putLong(KEY_ID_EMPLOYEE, idEmployee)
@@ -82,12 +83,12 @@ class SessionManager(context: Context) {
         return prefs.getBoolean(KEY_ACTIVE, false)
     }
 
-    fun fetchPermissions(): List<String> {
-        return prefs.getStringSet(KEY_PERMISSIONS, emptySet())?.toList() ?: emptyList()
+    fun fetchPermissions(): Set<String> {
+        return prefs.getStringSet(KEY_PERMISSIONS, emptySet()) ?: emptySet()
     }
 
-    fun hasPermission(permission: String): Boolean {
-        return fetchPermissions().any { it == permission }
+    fun hasPermission(permission: Permission): Boolean {
+        return fetchPermissions().any { it == permission.name }
     }
 
     fun clearSession() {

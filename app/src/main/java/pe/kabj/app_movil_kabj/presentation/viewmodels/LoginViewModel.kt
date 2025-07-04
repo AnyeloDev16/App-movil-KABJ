@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import pe.kabj.app_movil_kabj.data.api.AuthPublicApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
 import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.data.dto.OperationResult
 import pe.kabj.app_movil_kabj.data.local.SessionManager
 import pe.kabj.app_movil_kabj.data.dto.auth.AuthenticationRequest
 
@@ -23,7 +24,8 @@ class LoginViewModel(
     private val retrofitClient = RetrofitClient.getInstance(context)
 
     // Para login usamos PUBLIC service (no necesita token)
-    private val authPublicApiService: AuthPublicApiService = retrofitClient.createPublicService(AuthPublicApiService::class.java)
+    private val authPublicApiService: AuthPublicApiService =
+        retrofitClient.createPublicService(AuthPublicApiService::class.java)
 
     private val _isLoginButtonPressed: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginButtonPressed: LiveData<Boolean> get() = _isLoginButtonPressed
@@ -31,8 +33,8 @@ class LoginViewModel(
     private val _isAuthenticating: MutableLiveData<Boolean> = MutableLiveData()
     val isAuthenticating: LiveData<Boolean> get() = _isAuthenticating
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> get() = _loginResult
+    private val _loginResult = MutableLiveData<OperationResult>()
+    val loginResult: LiveData<OperationResult> get() = _loginResult
 
     fun isLoginFormValid(username: String, password: String): Boolean {
         _isLoginButtonPressed.value = true
@@ -50,13 +52,19 @@ class LoginViewModel(
             _isAuthenticating.postValue(true)
 
             try {
-                val authResponse = authPublicApiService.authenticate(AuthenticationRequest(username, password, "MOBILE"))
+                val authResponse = authPublicApiService.authenticate(
+                    AuthenticationRequest(
+                        username,
+                        password,
+                        "MOBILE"
+                    )
+                )
 
                 if (!authResponse.isSuccessful) {
-                    val errorDto = extractErrorDto(authResponse)
+                    val errorDto = ErrorResponse.extractErrorDto(authResponse)
                     _isLoginButtonPressed.postValue(false)
                     _isAuthenticating.postValue(false)
-                    _loginResult.postValue(LoginResult.Error(errorDto))
+                    _loginResult.postValue(OperationResult.Error("Autenticación Fallida", errorDto.message))
                     return@launch
                 }
 
@@ -67,17 +75,7 @@ class LoginViewModel(
                 if (token.isNullOrEmpty()) {
                     _isLoginButtonPressed.postValue(false)
                     _isAuthenticating.postValue(false)
-                    _loginResult.postValue(
-                        LoginResult.Error(
-                            ErrorResponse(
-                                code = "NO_TOKEN",
-                                status = "BAD_RESPONSE",
-                                message = "No se recibió token de autenticación.",
-                                timestamp = System.currentTimeMillis().toString(),
-                                path = "/auth/log-in"
-                            )
-                        )
-                    )
+                    _loginResult.postValue(OperationResult.Error("Autenticación Fallida", "No se genero el Token"))
                     return@launch
                 }
 
@@ -91,34 +89,14 @@ class LoginViewModel(
                 if (employeeResponse == null) {
                     _isLoginButtonPressed.postValue(false)
                     _isAuthenticating.postValue(false)
-                    _loginResult.postValue(
-                        LoginResult.Error(
-                            ErrorResponse(
-                                code = "NO_EMPLOYEE_DATA",
-                                status = "BAD_RESPONSE",
-                                message = "No se recibió información del empleado.",
-                                timestamp = System.currentTimeMillis().toString(),
-                                path = "/auth/log-in"
-                            )
-                        )
-                    )
+                    _loginResult.postValue(OperationResult.Error("Autenticación Fallida", "No se recibió información del empleado"))
                     return@launch
                 }
 
                 if (userResponse == null) {
                     _isLoginButtonPressed.postValue(false)
                     _isAuthenticating.postValue(false)
-                    _loginResult.postValue(
-                        LoginResult.Error(
-                            ErrorResponse(
-                                code = "NO_USER_DATA",
-                                status = "BAD_RESPONSE",
-                                message = "No se recibió información del usuario del empleado.",
-                                timestamp = System.currentTimeMillis().toString(),
-                                path = "/auth/log-in"
-                            )
-                        )
-                    )
+                    _loginResult.postValue(OperationResult.Error("Autenticación Fallida", "No se recibió información del usuario del empleado"))
                     return@launch
                 }
 
@@ -135,57 +113,13 @@ class LoginViewModel(
 
                 _isLoginButtonPressed.postValue(false)
                 _isAuthenticating.postValue(false)
-                _loginResult.postValue(LoginResult.Success())
+                _loginResult.postValue(OperationResult.Success(null, null))
 
             } catch (e: Exception) {
-                Log.e("LoginViewModel", "Error durante autenticación", e)
                 _isLoginButtonPressed.postValue(false)
                 _isAuthenticating.postValue(false)
-                _loginResult.postValue(
-                    LoginResult.Error(
-                        ErrorResponse(
-                            code = "EXCEPTION",
-                            status = "ERROR",
-                            message = "Error de red o inesperado: ${e.message}",
-                            timestamp = System.currentTimeMillis().toString(),
-                            path = "/auth/log-in"
-                        )
-                    )
-                )
+                _loginResult.postValue(OperationResult.Error("Autenticación", "Error de red o inesperado: ${e.message}"))
             }
         }
     }
-
-
-    private fun extractErrorDto(response: retrofit2.Response<*>): ErrorResponse {
-        return try {
-            val errorBodyStr = response.errorBody()?.string()
-            if (!errorBodyStr.isNullOrEmpty()) {
-                RetrofitClient.gson.fromJson(errorBodyStr, ErrorResponse::class.java)
-            } else {
-                ErrorResponse(
-                    code = "HTTP_${response.code()}",
-                    status = response.message(),
-                    message = "Error sin body",
-                    timestamp = "",
-                    path = ""
-                )
-            }
-        } catch (e: Exception) {
-            Log.e("LoginViewModel", "Fallo al parsear errorBody", e)
-            ErrorResponse(
-                code = "HTTP_${response.code()}",
-                status = response.message(),
-                message = "Error inesperado al procesar el error",
-                timestamp = "",
-                path = ""
-            )
-        }
-    }
-
-}
-
-sealed class LoginResult {
-    class Success : LoginResult()
-    class Error(val errorResponse: ErrorResponse) : LoginResult()
 }
