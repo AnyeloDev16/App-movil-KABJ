@@ -7,117 +7,121 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import pe.kabj.app_movil_kabj.R
+import pe.kabj.app_movil_kabj.data.dto.OperationResult
 import pe.kabj.app_movil_kabj.databinding.FragmentConsultWorkOrderBinding
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.util.extensions.validateIsNumber
 import pe.kabj.app_movil_kabj.util.extensions.validateNotEmpty
 import pe.kabj.app_movil_kabj.presentation.viewmodels.ConsultWorkOrderViewModel
+import kotlin.getValue
 
 class ConsultWorkOrderFragment : Fragment() {
 
     private var _binding: FragmentConsultWorkOrderBinding? = null
     private val binding get() = _binding!!
 
-    private val consultWorkOrderViewModel: ConsultWorkOrderViewModel by activityViewModels()
+    private val viewModel: ConsultWorkOrderViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return ConsultWorkOrderViewModel(requireContext()) as T
+            }
+        }
+    }
 
-    // Components
-    private lateinit var layoutTxtNumberWorkOrder: TextInputLayout
-    private lateinit var txtNumberWorkOrder: TextInputEditText
-    private lateinit var btnSearchWorkOrder: MaterialButton
-
-    private var progressDialog: AlertDialog? = null
+    private lateinit var alertDialog : AlertDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentConsultWorkOrderBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupComponents()
+        alertDialog = ModalDialogUtils.createProgressDialog(requireContext(), "Buscando orden de trabajo . . .")
         setupListeners()
         setupObservers()
     }
 
-    private fun setupComponents() {
-        layoutTxtNumberWorkOrder = binding.layoutTxtNumberWorkOrder
-        txtNumberWorkOrder = binding.txtNumberWorkOrder
-        btnSearchWorkOrder = binding.btnSearchWorkOrder
-    }
-
     private fun setupListeners() {
-        txtNumberWorkOrder.addTextChangedListener {
+
+        binding.txtNumberWorkOrder.addTextChangedListener {
             if (!it.isNullOrBlank()){
-                layoutTxtNumberWorkOrder.error = null
+                binding.layoutTxtNumberWorkOrder.error = null
             }
         }
 
-        btnSearchWorkOrder.setOnClickListener {
-
-            // Validar que el campo no este vacio
-            val isNumberWorkOrderNotEmpty = layoutTxtNumberWorkOrder.validateNotEmpty(getString(R.string.msg_error_number_work_order_required))
-
-            // Si el campo esta vacio, no continuar
-            if (!isNumberWorkOrderNotEmpty) return@setOnClickListener
-
+        binding.btnSearchWorkOrder.setOnClickListener {
+            // 64618576
             // Validar que el campo sea un numero
-            val isNumberWorkOrderValid = layoutTxtNumberWorkOrder.validateIsNumber(getString(R.string.msg_error_number_work_order_invalid))
+            val isNumberWorkOrderValid = binding.layoutTxtNumberWorkOrder.validateIsNumber(getString(R.string.msg_error_number_work_order_invalid))
 
             // Si el campo no es un numero, no continuar
-            if (!isNumberWorkOrderValid) return@setOnClickListener
+            if (!isNumberWorkOrderValid) {
+                ModalDialogUtils.showFailureDialog(requireContext(), "Error de Tipeo", "Debe ingresar un número")
+                return@setOnClickListener
+            }
 
-            val numberWorkOrder : Long = txtNumberWorkOrder.getTrimmedText().toLong()
+            val numberWorkOrder : Long = binding.txtNumberWorkOrder.getTrimmedText().toLong()
 
-            consultWorkOrderViewModel.searchWorkOrderBy(numberWorkOrder)
+            viewModel.searchWorkOrderBy(numberWorkOrder)
 
         }
+
     }
 
     private fun setupObservers() {
-        consultWorkOrderViewModel.workOrder.observe(viewLifecycleOwner, Observer { workOrder ->
+        viewModel.workOrder.observe(viewLifecycleOwner) { workOrder ->
 
             if (workOrder != null){
+
+                val fragment = WorkOrderDetailFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("workOrder", workOrder)
+                    }
+
+                }
+
                 parentFragmentManager.beginTransaction()
                     .hide(this)
-                    .add(R.id.fragment_container, WorkOrderDetailFragment())
+                    .add(R.id.fragment_container, fragment)
                     .addToBackStack("WorkOrderDetail")
                     .commit()
             } else {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Orden de trabajo")
-                    .setMessage("No se encontró la orden de trabajo: " + txtNumberWorkOrder.getTrimmedText())
-                    .setPositiveButton("Aceptar") { dialog, _ -> dialog.dismiss() }
-                    .show()
+                ModalDialogUtils.showFailureDialog(
+                    requireContext(),
+                    "Ordern no encontrada",
+                    "No se encontró la orden de trabajo: " + binding.txtNumberWorkOrder.getTrimmedText()
+                )
             }
 
-        })
+        }
 
-        consultWorkOrderViewModel.isSearching.observe(viewLifecycleOwner, Observer { isSearching ->
-
-            if (isSearching) {
-                showLoading()
+        viewModel.isSearching.observe(viewLifecycleOwner) { isSearching ->
+            if (isSearching){
+                alertDialog.show()
             } else {
-                hideLoading()
+                alertDialog.dismiss()
+            }
+        }
+
+        viewModel.isEnabledBtnSearch.observe(viewLifecycleOwner) { isEnabled ->
+            binding.btnSearchWorkOrder.isEnabled = isEnabled
+        }
+
+        viewModel.messageResult.observe(viewLifecycleOwner) { messageResult ->
+
+            if (messageResult is OperationResult.Error){
+                ModalDialogUtils.showFailureDialog(requireContext(), messageResult.title, messageResult.message)
             }
 
-        })
-    }
+        }
 
-    private fun showLoading() {
-
-
-    }
-
-    private fun hideLoading() {
-        progressDialog?.dismiss()
     }
 
 }

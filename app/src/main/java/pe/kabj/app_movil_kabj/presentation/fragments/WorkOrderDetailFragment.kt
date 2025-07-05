@@ -5,21 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.google.android.material.button.MaterialButton
 import pe.kabj.app_movil_kabj.databinding.FragmentWorkOrderDetailBinding
-import pe.kabj.app_movil_kabj.presentation.viewmodels.ConsultWorkOrderViewModel
-import pe.kabj.app_movil_kabj.presentation.viewmodels.WorkOrderDetailViewModel
 
 class WorkOrderDetailFragment : Fragment() {
 
     private var _binding: FragmentWorkOrderDetailBinding? = null
     private val binding get() = _binding!!
-
-    private val workOrderDetailViewModel: WorkOrderDetailViewModel by viewModels()
-    private val consultWorkOrderViewModel: ConsultWorkOrderViewModel by viewModels()
-
-    private lateinit var btnReturn: MaterialButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentWorkOrderDetailBinding.inflate(inflater, container, false)
@@ -27,16 +18,14 @@ class WorkOrderDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupComponents()
+        /*
+        @Suppress("DEPRECATION")
+        arguments?.getParcelable<WorkOrderGeneralResponse>("workOrder")*/
         setupListeners()
     }
 
-    private fun setupComponents() {
-        btnReturn = binding.btnReturn
-    }
-
     private fun setupListeners() {
-        btnReturn.setOnClickListener {
+        binding.btnReturn.setOnClickListener {
             handleBackPress()
         }
     }

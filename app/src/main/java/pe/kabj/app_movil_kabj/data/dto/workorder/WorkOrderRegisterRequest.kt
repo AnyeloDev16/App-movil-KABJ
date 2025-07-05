@@ -2,7 +2,6 @@ package pe.kabj.app_movil_kabj.data.dto.workorder
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
-import java.time.LocalDateTime
 
 data class WorkOrderRegisterRequest(
     @SerializedName("number_ot")

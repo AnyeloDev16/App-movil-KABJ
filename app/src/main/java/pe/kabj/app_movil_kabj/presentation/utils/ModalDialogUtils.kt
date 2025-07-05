@@ -11,16 +11,26 @@ import pe.kabj.app_movil_kabj.databinding.ModalLoadingBinding
 
 object ModalDialogUtils {
 
-    fun showProgressDialog(context: Context, message: String) {
+    fun createProgressDialog(context: Context, message: String) : AlertDialog{
 
         val binding = ModalLoadingBinding.inflate(LayoutInflater.from(context))
 
         binding.tvMessage.text = message
 
-        MaterialAlertDialogBuilder(context)
+        val dialog : AlertDialog = MaterialAlertDialogBuilder(context)
             .setCancelable(false)
             .setView(binding.root)
-            .show()
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.setCanceledOnTouchOutside(false)
+
+        dialog.setOnKeyListener { _, keyCode, _ ->
+            keyCode == android.view.KeyEvent.KEYCODE_BACK
+        }
+
+        return dialog
 
     }
 

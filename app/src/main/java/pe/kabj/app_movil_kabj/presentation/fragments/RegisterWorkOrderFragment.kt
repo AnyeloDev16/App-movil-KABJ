@@ -11,12 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pe.kabj.app_movil_kabj.R
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
 import pe.kabj.app_movil_kabj.data.dto.OperationResult.*
-import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderRegisterRequest
 import pe.kabj.app_movil_kabj.databinding.FragmentRegisterWorkOrderBinding
 import pe.kabj.app_movil_kabj.presentation.enums.ValidationState
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils

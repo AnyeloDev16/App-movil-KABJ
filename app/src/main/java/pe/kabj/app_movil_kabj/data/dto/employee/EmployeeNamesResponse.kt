@@ -1,0 +1,16 @@
+package pe.kabj.app_movil_kabj.data.dto.employee
+
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class EmployeeNamesResponse (
+
+    @SerializedName("names")
+    val names: String,
+
+    @SerializedName("surname")
+    val surname: String
+
+) : Parcelable
