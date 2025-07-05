@@ -96,5 +96,7 @@
     <string name="image_description_icon_modal">Icono de modal</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btnAccept">Aceptar</string>
+    <string name="lbl_work_order_activity">Actividad:</string>
+    <string name="lbl_work_order_sub_activity">Sub Actividad:</string>
 
 </resources>

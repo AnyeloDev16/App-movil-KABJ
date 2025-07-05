@@ -167,8 +167,6 @@ class RegisterWorkOrderViewModel(
                             _messageResult.postValue(OperationResult.Success("Registro Parcial" , message))
                         }
 
-                        clearFileUpload()
-
                     } else {
                         val errorDto = ErrorResponse.extractErrorDto(response)
                         _btnProcessFileEnabled.postValue(true)

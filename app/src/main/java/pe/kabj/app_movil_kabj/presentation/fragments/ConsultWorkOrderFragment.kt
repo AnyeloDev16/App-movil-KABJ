@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pe.kabj.app_movil_kabj.R
@@ -17,7 +16,6 @@ import pe.kabj.app_movil_kabj.databinding.FragmentConsultWorkOrderBinding
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.util.extensions.validateIsNumber
-import pe.kabj.app_movil_kabj.util.extensions.validateNotEmpty
 import pe.kabj.app_movil_kabj.presentation.viewmodels.ConsultWorkOrderViewModel
 import kotlin.getValue
 

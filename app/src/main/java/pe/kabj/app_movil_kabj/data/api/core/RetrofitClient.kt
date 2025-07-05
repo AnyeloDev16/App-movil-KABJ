@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient private constructor(private val context: Context) {
 
     companion object {
-        private const val BASE_URL = "https://5333-38-253-150-222.ngrok-free.app/api/v1/"
+        private const val BASE_URL = "https://925a-38-253-150-222.ngrok-free.app/api/v1/"
         internal val gson: Gson = Gson()
         private var INSTANCE: RetrofitClient? = null
 

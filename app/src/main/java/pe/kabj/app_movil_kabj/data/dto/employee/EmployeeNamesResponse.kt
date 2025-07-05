@@ -10,7 +10,11 @@ data class EmployeeNamesResponse (
     @SerializedName("names")
     val names: String,
 
-    @SerializedName("surname")
-    val surname: String
+    @SerializedName("surnames")
+    val surnames: String
 
-) : Parcelable
+) : Parcelable {
+    fun getFullName(): String {
+        return "$names $surnames"
+    }
+}

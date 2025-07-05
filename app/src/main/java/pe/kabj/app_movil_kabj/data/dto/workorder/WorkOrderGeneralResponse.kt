@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 import pe.kabj.app_movil_kabj.data.dto.activity.ActivityResponse
 import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeNamesResponse
 import pe.kabj.app_movil_kabj.data.dto.supplynumber.SupplyNumberResponse
-import java.time.LocalDateTime
 import kotlinx.parcelize.Parcelize
+import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState
 
 @Parcelize
 data class WorkOrderGeneralResponse(
@@ -24,13 +24,13 @@ data class WorkOrderGeneralResponse(
     val activity: ActivityResponse,
 
     @SerializedName("employee")
-    val employeeNameResponse: EmployeeNamesResponse,
+    val employeeNameResponse: EmployeeNamesResponse?,
 
     @SerializedName("work_order_type")
     val workOrderType: String,
 
     @SerializedName("state")
-    val state: String,
+    val state: WorkOrderState,
 
     @SerializedName("description")
     val description: String,
