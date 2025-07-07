@@ -10,6 +10,7 @@ import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
 import pe.kabj.app_movil_kabj.data.dto.OperationResult
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderGeneralResponse
 import pe.kabj.app_movil_kabj.data.local.SessionManager
+import pe.kabj.app_movil_kabj.model.enum.Permission
 
 class ConsultWorkOrderViewModel (
     context: Context
@@ -35,6 +36,11 @@ class ConsultWorkOrderViewModel (
     val messageResult: LiveData<OperationResult> get() = _messageResult
 
     fun searchWorkOrderBy(numberWorkOrder: Long) {
+
+        if(!sessionManager.hasPermission(Permission.MOBILE_WORK_ORDER_SEARCH)){
+            _messageResult.postValue(OperationResult.Error("Acceso Denegado", "No tienes permisos para Consultar órdenes de trabajo."))
+            return
+        }
 
         if (numberWorkOrder <= 0) {
             _messageResult.postValue(OperationResult.Error("Ingreso erróneo", "No puede buscar una Orden de Trabajo con número negativo"))

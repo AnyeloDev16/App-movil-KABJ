@@ -1,7 +1,9 @@
 package pe.kabj.app_movil_kabj.data.api
 
 import okhttp3.MultipartBody
+import pe.kabj.app_movil_kabj.data.dto.workorder.BatchAssignResponse
 import pe.kabj.app_movil_kabj.data.dto.workorder.BatchResponse
+import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderAssignRequest
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderGeneralResponse
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderRegisterRequest
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderUpdateStateRequest
@@ -17,11 +19,18 @@ import retrofit2.http.Path
 interface WorkOrderApiService {
 
     @Multipart
-    @POST("work-orders/excel-validate")
-    fun excelValidate(@Part file: MultipartBody.Part): Call<List<WorkOrderRegisterRequest>>
+    @POST("work-orders/excel-validate-register")
+    fun excelValidateRegister(@Part file: MultipartBody.Part): Call<List<WorkOrderRegisterRequest>>
+
+    @Multipart
+    @POST("work-orders/excel-validate-assign")
+    fun excelValidateAssign(@Part file: MultipartBody.Part): Call<List<WorkOrderAssignRequest>>
 
     @POST("work-orders/batch")
     fun saveAll(@Body workOrderRegisterRequest: List<WorkOrderRegisterRequest>): Call<BatchResponse>
+
+    @PATCH("work-orders/batch/foreman/{idForeman}")
+    fun assignForeman(@Path("idForeman") idForeman: Long, @Body workOrderAssignRequest: List<WorkOrderAssignRequest>): Call<BatchAssignResponse>
 
     @GET("work-orders/{numberWorkOrder}/general")
     fun getWorkOrderGeneral(@Path("numberWorkOrder") numberWorkOrder: Long): Call<WorkOrderGeneralResponse>

@@ -6,6 +6,7 @@ import pe.kabj.app_movil_kabj.data.dto.activity.ActivityResponse
 import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeNamesResponse
 import pe.kabj.app_movil_kabj.data.dto.supplynumber.SupplyNumberResponse
 import kotlinx.parcelize.Parcelize
+import pe.kabj.app_movil_kabj.data.dto.activity.SubActivityResponse
 import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState
 
 @Parcelize
@@ -22,6 +23,9 @@ data class WorkOrderGeneralResponse(
 
     @SerializedName("activity")
     val activity: ActivityResponse,
+
+    @SerializedName("sub_activity")
+    val subActivity: SubActivityResponse,
 
     @SerializedName("employee")
     val employeeNameResponse: EmployeeNamesResponse?,

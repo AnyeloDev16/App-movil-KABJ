@@ -62,7 +62,7 @@ class RegisterWorkOrderViewModel(
         _fileSize.postValue(file.fileSizeFormatted)
         _isValidating.postValue(ValidationState.VALIDATING)
 
-        workOrderApiService.excelValidate(file.multipartBody)
+        workOrderApiService.excelValidateRegister(file.multipartBody)
             .enqueue(object : retrofit2.Callback<List<WorkOrderRegisterRequest>> {
 
                 override fun onResponse(
@@ -111,7 +111,7 @@ class RegisterWorkOrderViewModel(
         _btnProcessFileEnabled.postValue(false)
 
         if (!sessionManager.hasPermission(Permission.MOBILE_WORK_ORDER_CREATE)) {
-            _messageResult.postValue(OperationResult.Error("Acceso Denegado", "No tienes permisos para registrar órdenes de trabajo."))
+            _messageResult.postValue(OperationResult.Error("Acceso Denegado", "No tienes permisos para Registrar órdenes de trabajo."))
             return
         }
 

@@ -1,51 +1,59 @@
 package pe.kabj.app_movil_kabj.presentation.fragments
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import pe.kabj.app_movil_kabj.R
+import pe.kabj.app_movil_kabj.data.dto.OperationResult
+import pe.kabj.app_movil_kabj.data.dto.OperationResult.Success
+import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeForemanResponse
 import pe.kabj.app_movil_kabj.presentation.viewmodels.AssignWorkOrderViewModel
 import pe.kabj.app_movil_kabj.databinding.FragmentAssignWorkOrderBinding
 import pe.kabj.app_movil_kabj.presentation.enums.ValidationState
+import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 
 class AssignWorkOrderFragment : Fragment() {
 
     private var _binding: FragmentAssignWorkOrderBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AssignWorkOrderViewModel by viewModels()
+    private val viewModel: AssignWorkOrderViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return AssignWorkOrderViewModel(requireContext()) as T
+            }
+        }
+    }
 
-    private lateinit var layoutForemanSelector : TextInputLayout
-    private lateinit var autoCompleteForeman : MaterialAutoCompleteTextView
-    private lateinit var cardDropZone : CardView
-    private lateinit var btnChooseFile : TextView
-    private lateinit var cardFileInfo : CardView
-    private lateinit var btnRemoveFile : MaterialButton
-    private lateinit var btnProcessFile : MaterialButton
+    private val filePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK) {
+            val uri: Uri? = result.data?.data
+            uri?.let { safeUri ->
+                context?.let { ctx ->
+                    viewModel.uploadUri(safeUri)
+                }
+            }
 
-    private lateinit var filePickerLauncher: ActivityResultLauncher<Array<String>>
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
-            uri?.let {
-                viewModel.setSelectedFile(it, requireContext())
-                Toast.makeText(requireContext(), "Archivo cargado correctamente", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -54,92 +62,151 @@ class AssignWorkOrderFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupComponents()
+        viewModel.getAllForemanActive()
         setupListeners()
         setupObservers()
     }
 
-    private fun setupComponents() {
-        layoutForemanSelector = binding.layoutForemanSelector
-        autoCompleteForeman = binding.autoCompleteForeman
-        cardDropZone = binding.cardDropZone
-        btnChooseFile = binding.btnChooseFile
-        cardFileInfo = binding.cardFileInfo
-        btnRemoveFile = binding.btnRemoveFile
-        btnProcessFile = binding.btnProcessFile
+    private fun setupComboBoxState(allForemanActive: List<EmployeeForemanResponse>) {
+        val adapter = object : ArrayAdapter<EmployeeForemanResponse>(
+            requireContext(),
+            R.layout.spinner_item,
+            allForemanActive
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).text = "${getItem(position)?.names} ${getItem(position)?.surnames}"
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).text = "${getItem(position)?.names} ${getItem(position)?.surnames}"
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerState.adapter = adapter
+
+        if (!viewModel.userHasPermissionAssignForeman()) {
+            binding.spinnerState.isEnabled = false
+            binding.spinnerState.isClickable = false
+            binding.spinnerState.alpha = 0.5f
+        }
     }
 
     private fun setupListeners() {
-        btnChooseFile.setOnClickListener {
-            openFilePicker()
+
+        binding.btnChooseFile.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "*/*"
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(
+                    "application/vnd.ms-excel",
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ))
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            filePickerLauncher.launch(Intent.createChooser(intent, "Selecciona archivo Excel"))
         }
-        btnRemoveFile.setOnClickListener {
-            viewModel.clearFileSelection()
-            Toast.makeText(requireContext(), "Archivo eliminado", Toast.LENGTH_SHORT).show()
+
+        binding.btnRemoveFile.setOnClickListener {
+
+            ModalDialogUtils.showConfirmDialog(requireContext(), "¿Seguro que deseas eliminar el Archivo subido?") {
+                viewModel.clearFileUpload()
+                Toast.makeText(requireContext(), "Archivo eliminado", Toast.LENGTH_SHORT).show()
+            }
         }
-        btnProcessFile.setOnClickListener {
-            viewModel.selectedFileName.value
+
+        // Procesar archivo
+        binding.btnProcessFile.setOnClickListener {
+            val selectedForeman = binding.spinnerState.selectedItem as? EmployeeForemanResponse
+
+            if(selectedForeman == null || selectedForeman.idEmployee <= 0){
+                ModalDialogUtils.showFailureDialog(requireContext(), "Error", "Selecciona un Supervisor de la lista.")
+                return@setOnClickListener
+            }
+
+            viewModel.processSelectedFile(selectedForeman)
         }
+
     }
 
     private fun setupObservers() {
-        viewModel.isVisibleFileInfo.observe(viewLifecycleOwner) { isVisible ->
-            if (isVisible) {
-                cardFileInfo.visibility = View.VISIBLE
-            } else {
-                cardFileInfo.visibility = View.GONE
+
+        viewModel.btnProcessFileEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            binding.btnProcessFile.isEnabled = isEnabled
+        }
+
+        viewModel.fileName.observe(viewLifecycleOwner) { fileName ->
+            binding.tvFileName.text = fileName
+        }
+
+        viewModel.fileSize.observe(viewLifecycleOwner) { fileSize ->
+            binding.tvFileSize.text = fileSize
+        }
+
+        viewModel.isValidating.observe(viewLifecycleOwner) { state ->
+
+            when(state){
+                ValidationState.NONE -> {
+                    binding.cardFileInfo.isVisible = false
+                    binding.tvValidationInfo.text = ""
+                    binding.ivStatusIcon.visibility = View.GONE
+                    binding.progressValidation.visibility = View.GONE
+                    binding.btnRemoveFile.visibility = View.GONE
+                }
+                ValidationState.VALIDATING -> {
+                    binding.tvValidationInfo.text = "Validando..."
+                    binding.ivStatusIcon.visibility = View.GONE
+                    binding.progressValidation.visibility = View.VISIBLE
+                    binding.btnRemoveFile.isEnabled = false
+                    binding.btnRemoveFile.visibility = View.VISIBLE
+                    binding.cardFileInfo.isVisible = true
+                }
+                ValidationState.SUCCESS -> {
+                    binding.tvValidationInfo.text = "Validación exitosa"
+                    binding.progressValidation.visibility = View.GONE
+                    binding.ivStatusIcon.setImageResource(R.drawable.succes)
+                    binding.ivStatusIcon.visibility = View.VISIBLE
+                    binding.btnRemoveFile.isEnabled = true
+                    binding.btnRemoveFile.visibility = View.VISIBLE
+                    binding.cardFileInfo.isVisible = true
+                }
+                ValidationState.ERROR -> {
+                    binding.tvValidationInfo.text = "Validación fallida"
+                    binding.progressValidation.visibility = View.GONE
+                    binding.ivStatusIcon.setImageResource(R.drawable.error)
+                    binding.ivStatusIcon.visibility = View.VISIBLE
+                    binding.btnRemoveFile.isEnabled = true
+                    binding.cardFileInfo.isVisible = true
+                }
             }
 
         }
-        viewModel.validationState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                ValidationState.VALIDATING -> {
-                    binding.tvValidationTime.text = "Validando..."
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.progressValidation.visibility = View.VISIBLE
-                    binding.ivStatusIcon.visibility = View.GONE
-                    binding.btnProcessFile.isEnabled = false
+
+        viewModel.foremanList.observe(viewLifecycleOwner) { listAllForeman ->
+            setupComboBoxState(listAllForeman)
+        }
+
+        viewModel.messageResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is OperationResult.Error -> {
+                    showMessageError(result)
                 }
-                ValidationState.SUCCESS -> {
-                    binding.tvValidationTime.text = "Validación exitosa"
-                    binding.ivStatusIcon.setImageResource(R.drawable.succes)
-                    binding.ivStatusIcon.visibility = View.VISIBLE
-                    binding.progressValidation.visibility = View.GONE
-                    binding.btnProcessFile.isEnabled = true
-                }
-                ValidationState.ERROR -> {
-                    binding.tvValidationTime.text = "Validación fallida"
-                    binding.ivStatusIcon.setImageResource(R.drawable.error)
-                    binding.ivStatusIcon.visibility = View.VISIBLE
-                    binding.progressValidation.visibility = View.GONE
-                    binding.progressBar.visibility = View.GONE
-                    binding.btnProcessFile.isEnabled = false
-                }
-                ValidationState.NONE -> {
-                    binding.tvValidationTime.text = ""
-                    binding.ivStatusIcon.visibility = View.GONE
-                    binding.progressValidation.visibility = View.GONE
-                    binding.progressBar.visibility = View.GONE
-                    binding.btnProcessFile.isEnabled = false
+                is Success -> {
+                    showMessageSuccess(result)
                 }
             }
-        }
-        viewModel.selectedFileName.observe(viewLifecycleOwner) { fileName ->
-            binding.tvFileName.text = fileName
-        }
-        viewModel.fileSizeFormatted.observe(viewLifecycleOwner) { fileSize ->
-            binding.tvFileSize.text = fileSize
-        }
-        viewModel.progressPercent.observe(viewLifecycleOwner) { progress ->
-            binding.progressBar.progress = progress
         }
     }
 
-    private fun openFilePicker() {
-        filePickerLauncher.launch(arrayOf(
-            "application/vnd.ms-excel",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        ))
+    private fun showMessageError(error: OperationResult.Error) {
+        ModalDialogUtils.showFailureDialog(requireContext(), error.title, error.message)
+    }
+
+    private fun showMessageSuccess(success: Success) {
+        ModalDialogUtils.showSuccessDialog(requireContext(), success.title!!, success.message!!)
     }
 
 }

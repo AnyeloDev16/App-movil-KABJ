@@ -60,14 +60,21 @@ class WorkOrderDetailFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, WorkOrderState.entries)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerState.adapter = adapter
+
+        if (!viewModel.userHasPermissionChangeState()) {
+            binding.spinnerState.isEnabled = false
+            binding.spinnerState.isClickable = false
+            binding.spinnerState.alpha = 0.5f
+        }
+
     }
 
     private fun initData() {
         binding.tvWorkOrderNumber.text = workOrder.numberWorkOrder.toString()
         binding.spinnerState.setSelection(WorkOrderState.entries.indexOf(workOrder.state))
         binding.tvWorkOrderActivity.text = workOrder.activity.description
-        //binding.tvWorkOrderSubActivity.text = workOrder.subActivity.description.toString() (AGREGAR AL RESPONSE DE LA API)
-        binding.tvWorkOrderForeman.text = workOrder.employeeNameResponse?.getFullName() ?: "-- CAPATAZ NO ASIGNADO --"
+        binding.tvWorkOrderSubActivity.text = workOrder.subActivity.description.toString()
+        binding.tvWorkOrderForeman.text = workOrder.employeeNameResponse?.getFullName() ?: "- - CAPATAZ NO ASIGNADO - -"
         binding.tvWorkOrderType.text = workOrder.workOrderType
         binding.tvWorkOrderCost.text = workOrder.totalPrice.toString()
         binding.tvWorkOrderDescription.text = workOrder.description
@@ -94,22 +101,22 @@ class WorkOrderDetailFragment : Fragment() {
         binding.btnReturn.setOnClickListener {
             handleBackPress()
         }
-        binding.spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedState = parent.getItemAtPosition(position) as WorkOrderState
-                viewModel.selectNewState(selectedState)
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+        if (viewModel.userHasPermissionChangeState()) {
+            binding.spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedState = parent.getItemAtPosition(position) as WorkOrderState
+                    viewModel.selectNewState(selectedState)
+                }
 
+                override fun onNothingSelected(parent: AdapterView<*>) {}
             }
         }
-
 
         binding.btnSaveWorkOrder.setOnClickListener {
             val newState = WorkOrderState.entries.firstOrNull { it.name == binding.spinnerState.selectedItem.toString() }

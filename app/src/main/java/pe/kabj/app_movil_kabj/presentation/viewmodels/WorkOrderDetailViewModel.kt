@@ -10,6 +10,7 @@ import pe.kabj.app_movil_kabj.data.dto.OperationResult
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderGeneralResponse
 import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderUpdateStateRequest
 import pe.kabj.app_movil_kabj.data.local.SessionManager
+import pe.kabj.app_movil_kabj.model.enum.Permission
 import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState
 import retrofit2.Call
 import retrofit2.Response
@@ -39,7 +40,16 @@ class WorkOrderDetailViewModel(
 
     }
 
+    fun userHasPermissionChangeState(): Boolean {
+        return sessionManager.hasPermission(Permission.MOBILE_WORK_ORDER_CHANGE_STATE)
+    }
+
     fun saveChanges(){
+
+        if(!userHasPermissionChangeState()){
+            _messageResult.postValue(OperationResult.Error("Acceso Denegado", "No tienes permisos para Cambiar el estado de una órden de trabajo."))
+            return
+        }
 
         var workOrderUpdateStateRequest = WorkOrderUpdateStateRequest(
             workOrderGeneralResponse.numberWorkOrder,
