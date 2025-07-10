@@ -98,5 +98,13 @@
     <string name="btnAccept">Aceptar</string>
     <string name="lbl_work_order_activity">Actividad:</string>
     <string name="lbl_work_order_sub_activity">Sub Actividad:</string>
+    <string name="description_image_state">Imagen representativo del estado del Trabajo</string>
+    <string name="title_item_work_order_number">OT#</string>
+    <string name="title_item_work_order_start_date">F.I:</string>
+    <string name="text_item_btn_see_detail">Ver</string>
+    <string name="item_work_order_foreman_of">de</string>
+    <string name="item_work_order_foreman_page">Página</string>
+    <string name="item_work_order_foreman_previous">Anterior</string>
+    <string name="item_work_order_foreman_next">Siguiente</string>
 
 </resources>

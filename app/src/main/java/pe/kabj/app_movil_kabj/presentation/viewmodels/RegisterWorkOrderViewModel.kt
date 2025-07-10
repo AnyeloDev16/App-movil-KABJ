@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import pe.kabj.app_movil_kabj.data.api.WorkOrderApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
-import pe.kabj.app_movil_kabj.data.dto.workorder.BatchResponse
-import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderRegisterRequest
+import pe.kabj.app_movil_kabj.model.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.workorder.BatchResponse
+import pe.kabj.app_movil_kabj.model.dto.workorder.WorkOrderRegisterRequest
 import pe.kabj.app_movil_kabj.data.local.SessionManager
 import pe.kabj.app_movil_kabj.model.enum.Permission
 import pe.kabj.app_movil_kabj.presentation.enums.ValidationState

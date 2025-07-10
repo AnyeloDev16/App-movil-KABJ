@@ -12,9 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pe.kabj.app_movil_kabj.R
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
-import pe.kabj.app_movil_kabj.data.dto.OperationResult.Success
-import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderGeneralResponse
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.OperationResult.Success
+import pe.kabj.app_movil_kabj.model.dto.workorder.WorkOrderGeneralResponse
 import pe.kabj.app_movil_kabj.databinding.FragmentWorkOrderDetailBinding
 import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils

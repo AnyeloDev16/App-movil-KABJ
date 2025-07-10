@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import pe.kabj.app_movil_kabj.data.api.WorkOrderApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
-import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderGeneralResponse
+import pe.kabj.app_movil_kabj.model.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.workorder.WorkOrderGeneralResponse
 import pe.kabj.app_movil_kabj.data.local.SessionManager
 import pe.kabj.app_movil_kabj.model.enum.Permission
 
@@ -64,7 +64,7 @@ class ConsultWorkOrderViewModel (
                     } else {
                         _isSearching.postValue(false)
                         val errorDto = ErrorResponse.extractErrorDto(response)
-                        _messageResult.postValue(OperationResult.Error("Registro Fallido", errorDto.message))
+                        _messageResult.postValue(OperationResult.Error("Consulta Fallida", errorDto.message))
                         _isEnabledBtnSearch.postValue(true)
                     }
 

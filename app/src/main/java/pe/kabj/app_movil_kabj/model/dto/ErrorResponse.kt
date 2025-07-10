@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj.data.dto
+package pe.kabj.app_movil_kabj.model.dto
 
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
 

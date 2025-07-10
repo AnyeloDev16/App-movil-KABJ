@@ -1,14 +1,14 @@
-package pe.kabj.app_movil_kabj.data.dto.activity
+package pe.kabj.app_movil_kabj.model.dto.activity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SubActivityResponse (
+data class ActivityResponse (
 
-    @SerializedName("id_sub_activity")
-    val idSubActivity: Long,
+    @SerializedName("id_activity")
+    val idActivity: Long,
 
     @SerializedName("description")
     val description: String,

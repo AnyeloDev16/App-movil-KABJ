@@ -51,24 +51,44 @@
             android:id="@+id/btnPreviousPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anterior"
+            android:text="@string/item_work_order_foreman_previous"
             style="?attr/materialButtonOutlinedStyle"
             android:enabled="false"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="12dp"/>
 
         <TextView
-            android:id="@+id/tvPageIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Página 1 de 5"
+            android:text="@string/item_work_order_foreman_page"
             android:textSize="14sp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:id="@+id/tvPageActual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_work_order_foreman_of"
+            android:textSize="14sp"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:id="@+id/tvPageTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginEnd="12dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNextPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Siguiente"
+            android:text="@string/item_work_order_foreman_next"
             style="?attr/materialButtonOutlinedStyle"/>
     </LinearLayout>
 

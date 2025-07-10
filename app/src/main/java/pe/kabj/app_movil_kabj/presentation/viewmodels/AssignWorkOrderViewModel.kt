@@ -2,18 +2,17 @@ package pe.kabj.app_movil_kabj.presentation.viewmodels
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import pe.kabj.app_movil_kabj.data.api.EmployeeApiService
 import pe.kabj.app_movil_kabj.data.api.WorkOrderApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
-import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeForemanResponse
-import pe.kabj.app_movil_kabj.data.dto.workorder.BatchAssignResponse
-import pe.kabj.app_movil_kabj.data.dto.workorder.WorkOrderAssignRequest
+import pe.kabj.app_movil_kabj.model.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.employee.EmployeeForemanResponse
+import pe.kabj.app_movil_kabj.model.dto.workorder.BatchAssignResponse
+import pe.kabj.app_movil_kabj.model.dto.workorder.WorkOrderAssignRequest
 import pe.kabj.app_movil_kabj.data.local.SessionManager
 import pe.kabj.app_movil_kabj.model.enum.Permission
 import pe.kabj.app_movil_kabj.presentation.enums.ValidationState

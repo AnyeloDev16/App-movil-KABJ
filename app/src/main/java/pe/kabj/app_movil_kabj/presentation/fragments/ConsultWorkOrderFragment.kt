@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pe.kabj.app_movil_kabj.R
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
 import pe.kabj.app_movil_kabj.databinding.FragmentConsultWorkOrderBinding
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText

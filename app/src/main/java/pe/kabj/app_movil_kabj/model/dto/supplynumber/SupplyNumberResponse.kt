@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj.data.dto.supplynumber
+package pe.kabj.app_movil_kabj.model.dto.supplynumber
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

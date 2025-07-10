@@ -13,4 +13,14 @@
     <color name="btn_failure">#FF6465</color>
     <color name="btn_question">#4682B4</color>
     <color name="btn_cancel">#808080</color>
+
+    <color name="state_pending">#FFF59D</color> <!-- Amarillo claro -->
+    <color name="state_working">#90CAF9</color> <!-- Azul claro -->
+    <color name="state_billing">#A5D6A7</color> <!-- Verde claro -->
+    <color name="state_result">#CE93D8</color> <!-- Lila claro -->
+    <color name="state_attended">#FFCCBC</color> <!-- Naranja claro -->
+    <color name="state_concluded">#B2EBF2</color> <!-- Cian claro -->
+    <color name="state_canceled">#EF9A9A</color> <!-- Rojo claro -->
+    <color name="state_revised">#D7CCC8</color> <!-- Gris claro -->
+
 </resources>

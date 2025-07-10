@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj.data.dto.employee
+package pe.kabj.app_movil_kabj.model.dto.employee
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

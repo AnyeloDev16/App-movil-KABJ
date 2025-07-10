@@ -20,7 +20,7 @@ import pe.kabj.app_movil_kabj.databinding.ActivityLoginBinding
 import pe.kabj.app_movil_kabj.util.extensions.getTrimmedText
 import pe.kabj.app_movil_kabj.presentation.viewmodels.LoginViewModel
 import androidx.lifecycle.ViewModelProvider
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
 import pe.kabj.app_movil_kabj.presentation.utils.ModalDialogUtils
 
 class LoginActivity : AppCompatActivity() {

@@ -1,7 +1,6 @@
 package pe.kabj.app_movil_kabj.presentation.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pe.kabj.app_movil_kabj.data.api.AuthPublicApiService
 import pe.kabj.app_movil_kabj.data.api.core.RetrofitClient
-import pe.kabj.app_movil_kabj.data.dto.ErrorResponse
-import pe.kabj.app_movil_kabj.data.dto.OperationResult
+import pe.kabj.app_movil_kabj.model.dto.ErrorResponse
+import pe.kabj.app_movil_kabj.model.dto.OperationResult
 import pe.kabj.app_movil_kabj.data.local.SessionManager
-import pe.kabj.app_movil_kabj.data.dto.auth.AuthenticationRequest
+import pe.kabj.app_movil_kabj.model.dto.auth.AuthenticationRequest
 
 class LoginViewModel(
     context: Context

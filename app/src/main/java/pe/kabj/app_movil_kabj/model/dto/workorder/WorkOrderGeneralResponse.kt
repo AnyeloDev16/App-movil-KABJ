@@ -1,12 +1,12 @@
-package pe.kabj.app_movil_kabj.data.dto.workorder
+package pe.kabj.app_movil_kabj.model.dto.workorder
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import pe.kabj.app_movil_kabj.data.dto.activity.ActivityResponse
-import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeNamesResponse
-import pe.kabj.app_movil_kabj.data.dto.supplynumber.SupplyNumberResponse
+import pe.kabj.app_movil_kabj.model.dto.activity.ActivityResponse
+import pe.kabj.app_movil_kabj.model.dto.employee.EmployeeNamesResponse
+import pe.kabj.app_movil_kabj.model.dto.supplynumber.SupplyNumberResponse
 import kotlinx.parcelize.Parcelize
-import pe.kabj.app_movil_kabj.data.dto.activity.SubActivityResponse
+import pe.kabj.app_movil_kabj.model.dto.activity.SubActivityResponse
 import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState
 
 @Parcelize

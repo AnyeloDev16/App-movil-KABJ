@@ -1,4 +1,4 @@
-package pe.kabj.app_movil_kabj.data.dto.workorder
+package pe.kabj.app_movil_kabj.model.dto.workorder
 
 import com.google.gson.annotations.SerializedName
 import pe.kabj.app_movil_kabj.presentation.enums.WorkOrderState

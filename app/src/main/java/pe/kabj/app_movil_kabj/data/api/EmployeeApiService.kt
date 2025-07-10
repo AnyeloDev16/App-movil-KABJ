@@ -1,6 +1,6 @@
 package pe.kabj.app_movil_kabj.data.api
 
-import pe.kabj.app_movil_kabj.data.dto.employee.EmployeeForemanResponse
+import pe.kabj.app_movil_kabj.model.dto.employee.EmployeeForemanResponse
 import retrofit2.Call
 import retrofit2.http.GET
 
